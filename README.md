@@ -46,3 +46,4 @@ See `docs/setup.md` for full machine setup.
 - [Decisions log](docs/decisions.md)
 - [Setup](docs/setup.md)
 - [Research notes](docs/research/)
+- [Hand-off log (Claude Code ⇄ Claude app)](docs/handoff.md)

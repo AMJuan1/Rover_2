@@ -6,6 +6,7 @@ ROS 2 differential-drive rover with LiDAR, depth camera, odometry, point cloud /
 ## How this project is run (two tools, one repo)
 - **Claude Code (you), on Jan's Ubuntu machine:** all code, builds, launches, hardware tests, live-topic debugging, motor control. You have access to the robot; the other tool does not.
 - **Claude (claude.ai app):** research, long design discussions, reports, diagrams. It can read and push to this repo.
+- **Communication channel:** `docs/handoff.md` — append-only log with protocol and file-ownership table. Read it after every `git pull`; append an entry before every push.
 - **This repository is the single source of truth.** Anything decided in either tool must end up in `docs/` (decisions in `docs/decisions.md`, research in `docs/research/`). Before starting work, read `docs/` to pick up decisions made elsewhere. Always `git pull` before starting and push when a unit of work is done.
 
 ## Current status (as of 2026-09-29)
@@ -28,8 +29,12 @@ ROS 2 differential-drive rover with LiDAR, depth camera, odometry, point cloud /
 6. Commit and push (`docs: fill environment and hardware details`, etc.).
 
 ## Environment
-- OS: Ubuntu <VERSION — TODO>
-- ROS 2 distro: <DISTRO — TODO> (22.04 → Humble, 24.04 → Jazzy)
+- Dev machine (detected 2026-09-29): ASUS laptop, AMD Ryzen 9 5900HS (16 threads, x86_64), 38 GiB RAM
+- OS: Ubuntu 22.04.5 LTS (jammy)
+- ROS 2 distro: Humble (target for 22.04) — **not installed yet** (`/opt/ros/` absent; colcon/rosdep absent)
+- User groups: has `plugdev`; missing `dialout`, `video` (needed for serial/camera access)
+- No rover hardware connected to the dev machine at detection time (no `/dev/ttyUSB*`, `/dev/ttyACM*`, `/dev/video*`)
+- Repo currently cloned at `~/Documents/Claude_Projects/ROVER_V2` (not yet inside a colcon workspace)
 - Workspace: `~/rover_ws/` with this repo cloned at `~/rover_ws/src/Rover_2/`
 - Build: `cd ~/rover_ws && colcon build --symlink-install`
 - Source after build: `source ~/rover_ws/install/setup.bash`
