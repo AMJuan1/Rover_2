@@ -57,3 +57,18 @@
 | Live LiDAR-inertial SLAM (laptop) | FAST-LIO2, or similar Livox-compatible LIO |
 | Colored point cloud / textured model (offline) | FAST-LIVO2, R3LIVE, RTAB-Map (D435i) |
 | Mesh + texture | OpenMVS or similar, offline |
+
+## Commercial reference: FJD Trion P2 handheld SLAM scanner (~USD 9,999)
+LiDAR specs are identical to the Mid-360 (905 nm, 360°×59°, 200k pts/s, 40 m @ 10% / 70 m @ 80%), so it is most likely built around the same sensor. What it adds on top of the LiDAR:
+
+| Component | Role |
+|---|---|
+| IMU, tightly coupled | LiDAR-inertial SLAM (real-time trajectory) |
+| Front camera, 2 MP global shutter, 70° | Visual SLAM (extra constraint on the trajectory) |
+| Two side cameras (12–48 MP, sources differ) | Color for the point cloud |
+| Optional Insta360 X3/X5 on top | Panoramic imagery for texture |
+| Factory camera–LiDAR calibration + hardware time sync | Makes the colorizing accurate |
+| On-board real-time SLAM + desktop post-processing software | Fast live preview; accurate colored cloud / model offline |
+| Optional RTK GNSS | Georeferencing (not usable inside pipes) |
+
+Implications for the rover: the Mid-360 + built-in IMU already cover the core. Missing pieces are a fixed, calibrated, time-synchronized color camera and the software pipeline (open-source equivalents: FAST-LIVO2, R3LIVE). **A 360° camera is a strong texture candidate in pipes**: it sees the whole pipe ring at once, avoiding the grazing-angle problem of a forward camera. Requires even LED lighting around the rover and a sync/alignment method with the LiDAR (to research).
