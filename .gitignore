@@ -1,0 +1,25 @@
+# colcon workspace
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+
+# Recordings and large data (keep out of git; store externally)
+*.db3
+*.mcap
+*.bag
+rosbags/
+*.pcd
+*.ply
+*.las
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store

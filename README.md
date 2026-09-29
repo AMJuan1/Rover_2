@@ -1,7 +1,48 @@
-## Robot Package Template
+# Rover
 
-This is a GitHub template. You can make your own copy by clicking the green "Use this template" button.
+Autonomous ground rover built on ROS 2 (Ubuntu).
 
-It is recommended that you keep the repo/package name the same, but if you do change it, ensure you do a "Find all" using your IDE (or the built-in GitHub IDE by hitting the `.` key) and rename all instances of `Rover_2` to whatever your project's name is.
+## Capabilities (target)
 
-Note that each directory currently has at least one file in it to ensure that git tracks the files (and, consequently, that a fresh clone has direcctories present for CMake to find). These example files can be removed if required (and the directories can be removed if `CMakeLists.txt` is adjusted accordingly).
+- 2D/3D LiDAR scanning
+- Depth camera (RGB-D) perception
+- Wheel/IMU odometry and sensor fusion
+- Point cloud generation and 3D model/map output
+- Live camera feed (remote viewing)
+- Motor control (differential drive)
+
+## Repository layout
+
+This repository is a single ROS 2 package (`ament_cmake`) placed inside a colcon workspace's `src/` folder.
+
+| Path | Contents |
+|---|---|
+| `description/` | URDF/xacro robot model (`robot.urdf.xacro`) |
+| `launch/` | Launch files (`rsp.launch.py` = robot_state_publisher) |
+| `config/` | Parameter YAML files |
+| `worlds/` | Gazebo simulation worlds |
+| `docs/` | Architecture, hardware, decisions, research, setup |
+| `CLAUDE.md` | Project context for Claude Code |
+
+## Quick start
+
+```bash
+mkdir -p ~/rover_ws/src && cd ~/rover_ws/src
+git clone https://github.com/AMJuan1/Rover_2.git
+cd ~/rover_ws
+source /opt/ros/$ROS_DISTRO/setup.bash
+rosdep install --from-paths src --ignore-src -r -y
+colcon build --symlink-install
+source install/setup.bash
+ros2 launch Rover_2 rsp.launch.py
+```
+
+See `docs/setup.md` for full machine setup.
+
+## Documentation
+
+- [Architecture](docs/architecture.md)
+- [Hardware](docs/hardware.md)
+- [Decisions log](docs/decisions.md)
+- [Setup](docs/setup.md)
+- [Research notes](docs/research/)
