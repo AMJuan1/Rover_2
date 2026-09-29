@@ -22,6 +22,7 @@ Phase defined by ADR-005: test each new device standalone on the dev machine bef
 | 6 | Frames | `ros2 run tf2_tools view_frames` | Frame IDs correct (REP-103/105) |
 | 7 | Load | `top` / `htop` while streaming | CPU/USB bandwidth acceptable |
 | 8 | Recording | `ros2 bag record` short sample (kept out of git) | Bag plays back correctly |
+| 9 | Raspberry Pi 4 load | Run Mid-360 + D435i drivers and recording on the Pi 4 simultaneously | No dropped messages; CPU headroom documented |
 
 ## Results
 
