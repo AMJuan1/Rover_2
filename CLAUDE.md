@@ -1,7 +1,7 @@
 # CLAUDE.md — Rover project context
 
 ## Project
-ROS 2 differential-drive rover with LiDAR, depth camera, odometry, point cloud / 3D model generation, live camera feed, and motor control. Owner: Jan (mechatronics engineer). GitHub: https://github.com/AMJuan1/Rover_2
+ROS 2 differential-drive rover with LiDAR, depth camera, odometry, point cloud / 3D model generation, live camera feed, and motor control. **Application: water pipe inspection** (navigation inside pipes, textured 3D model of the pipe, remote camera inspection). Owner: Jan (mechatronics engineer). GitHub: https://github.com/AMJuan1/Rover_2
 
 ## How this project is run (two tools, one repo)
 - **Claude Code (you), on Jan's Ubuntu machine:** all code, builds, launches, hardware tests, live-topic debugging, motor control. You have access to the robot; the other tool does not.

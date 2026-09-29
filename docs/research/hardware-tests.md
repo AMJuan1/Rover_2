@@ -6,9 +6,9 @@ Phase defined by ADR-005: test each new device standalone on the dev machine bef
 
 | Device | Model | Interface | ROS 2 Humble driver | Status |
 |---|---|---|---|---|
-| LiDAR (new) | TODO (Jan) | TODO | TODO | Not started |
-| Depth camera (new) | TODO (Jan) | TODO | TODO | Not started |
-| Gimbal camera | Not purchased yet | — | — | Selection pending (research by app) |
+| LiDAR (new) | Livox Mid-360 | Ethernet 100BASE-TX (PTPv2 sync), built-in IMU | `livox_ros_driver2` | Not started |
+| Depth camera (new) | Intel RealSense D435i | USB 3, built-in IMU | `realsense2_camera` (realsense-ros) | Not started |
+| Gimbal camera | Not purchased yet (candidate: SIYI A8 mini) | Ethernet (video + control SDK) | Community SIYI ROS SDKs, to be evaluated | Selection pending: pipe diameter and mapping role |
 
 ## Standard test sequence (per device)
 
