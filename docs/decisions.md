@@ -55,3 +55,11 @@ Record each design decision before implementing it. Newest at the bottom.
 - Options: (A) start the roadmap (URDF, motor control); (B) evaluate each device standalone first.
 - Decision: B. Roadmap steps 1–7 in `CLAUDE.md` are on hold. Detailed rover hardware data (dimensions, mounting, wiring) is not collected in this phase.
 - Consequences: Work is organized per device under `tests/` and documented in `docs/research/hardware-tests.md`. Test launch files and configs stay outside the rover's main launch tree until a device is adopted (each adoption gets its own ADR).
+
+## ADR-006: Sensing roles for pipe inspection
+- Date: 2026-09-29
+- Status: Proposed (pending hardware tests)
+- Context: Application is inspection of dry concrete pipes, 22–35 in diameter, ~100 m runs, tethered. Outputs: navigation, textured 3D model of the pipe, and remote visual inspection. See `docs/research/pipe-inspection-sensing.md`.
+- Options: (A) gimbal camera used for both inspection and model texture; (B) fixed, calibrated sensors for mapping and texture, gimbal only for operator inspection.
+- Decision: B (proposed). Mid-360 = geometry + navigation; D435i (or a later fixed wide-angle camera) = texture + close-range depth; gimbal = operator inspection, optionally locked forward during mapping runs.
+- Consequences: Camera-LiDAR extrinsic calibration and time sync are required. Wheel odometry and a tether length counter are required to handle SLAM degeneracy in straight pipes. Tether link type (fiber vs extender) must be decided before purchase.
