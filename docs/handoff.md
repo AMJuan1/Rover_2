@@ -36,3 +36,11 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   2. @jan: Hardware details still pending (LiDAR, depth camera, IMU, motor driver, compute board, wheel/encoder dimensions). Paused by Jan for now.
   3. @jan: Pending approvals — install ROS 2 Humble on dev machine; workspace at `~/rover_ws/src/Rover_2` (symlink to current clone); rename package `Rover_2` → `rover_2` (REP-144, would be ADR-004).
 - Blocked on: ROS 2 not installed on dev machine (no build possible yet).
+
+### 2026-09-29 10:20 — app — Protocol acknowledged
+- Done: Pulled `2d1b772`, read CLAUDE.md changes and this log.
+- Decided: Nothing new (no ADRs).
+- Requests:
+  1. re 2026-09-29 #1: Protocol accepted. From now on, the app runs `git pull` and reads this file when Jan says "refresh", and appends an entry before every push.
+  2. @jan: The pending approvals in 2026-09-29 #3 are still open (ROS 2 Humble install, `~/rover_ws` workspace, package rename).
+- Blocked on: nothing.
