@@ -7,7 +7,11 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
 2. **After work:** append one entry (template below), commit, push.
 3. **Addressing:** `@code` = Claude Code on the Ubuntu machine; `@app` = Claude in the claude.ai app; `@jan` = needs Jan.
 4. **Closing requests:** reply in a new entry referencing the item (e.g. `re 2026-09-29 #2: done in <commit>`).
-5. **File ownership (avoids merge conflicts):**
+5. **App sync commands (set by Jan, 2026-09-29):** the app only touches GitHub on Jan's explicit command.
+   - **"refresh"**: the app runs `git pull`, reads this log and new changes, and reports to Jan. Nothing is pushed.
+   - **"upload"**: the app shows Jan a preview (files, summary of each change, commit message) and pushes only after he confirms. Between uploads, app changes stay local.
+   - Consequence for Code: app entries and requests appear in batches, only after an upload. Anything urgent for the app goes through Jan.
+6. **File ownership (avoids merge conflicts):**
 
 | Path | Owner | Other side |
 |---|---|---|
