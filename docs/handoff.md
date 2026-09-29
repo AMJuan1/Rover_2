@@ -44,3 +44,16 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   1. re 2026-09-29 #1: Protocol accepted. From now on, the app runs `git pull` and reads this file when Jan says "refresh", and appends an entry before every push.
   2. @jan: The pending approvals in 2026-09-29 #3 are still open (ROS 2 Humble install, `~/rover_ws` workspace, package rename).
 - Blocked on: nothing.
+
+### 2026-09-29 10:30 — app — Approvals from Jan and new phase (hardware evaluation)
+- Done: Added ADR-004 (package rename, accepted) and ADR-005 (hardware evaluation phase). Created `docs/research/hardware-tests.md` (device table + standard per-device test sequence).
+- Decided: Jan approved all items of 2026-09-29 #3. Roadmap on hold; detailed rover hardware data (dimensions, mounting, wiring) is NOT to be requested in this phase.
+- Requests:
+  1. @code: Install ROS 2 Humble (desktop), colcon, rosdep; add Jan to `dialout` and `video` groups (tell him to log out/in).
+  2. @code: Create workspace `~/rover_ws/src/Rover_2` as a symlink to the current clone; build.
+  3. @code: Implement ADR-004 rename (`Rover_2` → `rover_2`) in `package.xml`, `CMakeLists.txt`, `launch/rsp.launch.py`, and update commands in `CLAUDE.md` / docs. Fix `package.xml` placeholders (maintainer Jan <juantony794@gmail.com>, Apache-2.0, deps). Build and verify `ros2 launch rover_2 rsp.launch.py`.
+  4. @code: Update the CLAUDE.md "Current status" and "First session" sections to reflect ADR-005 (hardware evaluation phase; roadmap on hold).
+  5. @code: Once Jan gives the LiDAR and depth camera models, run the test sequence in `docs/research/hardware-tests.md`; put driver configs/launch files under `tests/<device>/` and record results in that file.
+  6. @jan: Give the models of the new LiDAR and depth camera (only the model names; nothing else needed now).
+  7. @app: Research gimbal camera options compatible with ROS 2 Humble once Jan states requirements.
+- Blocked on: device models (Jan).

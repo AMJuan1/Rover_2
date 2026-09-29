@@ -39,3 +39,19 @@ Record each design decision before implementing it. Newest at the bottom.
 - Options: (A) keep single package; (B) restructure into multiple packages now.
 - Decision: A. Split into separate packages only when a subsystem justifies it, with its own ADR.
 - Consequences: New directories must be registered in `CMakeLists.txt` `install(DIRECTORY ...)`.
+
+## ADR-004: Rename package `Rover_2` → `rover_2`
+- Date: 2026-09-29
+- Status: Accepted (approved by Jan)
+- Context: ROS 2 package names must be lowercase (REP-144); `Rover_2` produces warnings and breaks tooling conventions.
+- Options: (A) keep `Rover_2`; (B) rename to `rover_2` now, before code is added.
+- Decision: B. The GitHub repository name stays `Rover_2`; only the ROS 2 package name changes.
+- Consequences: Update `package.xml`, `CMakeLists.txt` `project()`, `launch/rsp.launch.py` (`get_package_share_directory`), `CLAUDE.md` and docs commands (`--packages-select rover_2`, `ros2 launch rover_2 ...`).
+
+## ADR-005: Current phase is hardware evaluation, not rover integration
+- Date: 2026-09-29
+- Status: Accepted (Jan)
+- Context: Jan has a new LiDAR and a new depth camera, and plans to acquire a gimbal camera. He wants to learn how each device works before committing to the rover build.
+- Options: (A) start the roadmap (URDF, motor control); (B) evaluate each device standalone first.
+- Decision: B. Roadmap steps 1–7 in `CLAUDE.md` are on hold. Detailed rover hardware data (dimensions, mounting, wiring) is not collected in this phase.
+- Consequences: Work is organized per device under `tests/` and documented in `docs/research/hardware-tests.md`. Test launch files and configs stay outside the rover's main launch tree until a device is adopted (each adoption gets its own ADR).
