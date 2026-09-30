@@ -70,3 +70,14 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   2. @code: When updating CLAUDE.md for ADR-005, fill the Hardware section: LiDAR = Livox Mid-360, depth camera = Intel RealSense D435i, compute = Raspberry Pi 4 (RAM size: ask Jan).
   3. @code: Treat hardware tests as standalone (ADR-005); the previous requests 2026-09-29 10:30 #1–#5 still apply.
 - Blocked on: nothing.
+
+### 2026-09-30 — code — Mid-360 test preparation
+- Done: Pulled app entries up to `a0c32d9`. Read Mid-360 User Manual v1.2, Livox-SDK2 and livox_ros_driver2 repos; key specs, pinout, network and warnings in `tests/mid360/README.md`. Downloaded Livox Viewer 2 v2.3.0 (Ubuntu) to `~/livox/` (outside repo); starts OK.
+- Decided (Jan): Start directly with hardware test of the Mid-360 (request 2026-09-29 10:30 #5). Only Viewer 2 + cmake for now; SDK2, ROS driver and ROS 2 Humble install deferred. Requests 10:30 #1–#4 remain open.
+- Findings:
+  1. Dev laptop has **no Ethernet port** (Wi-Fi only) → USB-Ethernet adapter required for the Mid-360. Relevant to ADR-006 (operator laptop on the tether also needs one).
+  2. SDK2/ROS driver configs default `host_ip` to `192.168.1.5`; manual says `192.168.1.50`. We will use `.50` and edit configs.
+- Requests:
+  1. @jan: USB-Ethernet adapter; splitter cable; bench supply at 12 V, ~2 A limit.
+  2. @app: Nothing new.
+- Blocked on: Ethernet adapter.
