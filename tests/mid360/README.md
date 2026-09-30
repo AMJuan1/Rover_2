@@ -11,7 +11,7 @@ Source: Livox Mid-360 User Manual v1.2 (2024-04), https://www.livoxtech.com/mid-
 | Connector | M12 A-code 12-pin (male on sensor); 1-to-3 splitter cable: power (bare wires), Ethernet (RJ-45), function |
 | Network | 100BASE-TX, UDP, static IP |
 | Sensor IP | `192.168.1.1XX` (XX = last two digits of serial number), mask 255.255.255.0, gw 192.168.1.1 |
-| Host IP | `192.168.1.50/24` (static, wired interface) — manual value. **SDK2/ROS driver config files default to `192.168.1.5`**, so edit `host_ip` in them to `192.168.1.50` |
+| Host IP | Sensor factory config sends to `192.168.1.5`; manual says `192.168.1.50`. Dev laptop has **both** on the adapter (NM profile `livox-mid360`) |
 | Ports | LiDAR side 56100/56200/56300/56400/56500; host side 56101/56201/56301/56401/56501 (cmd/push/point/IMU/log) |
 | FOV | 360° H, −7° to +52° V; blind zone 0.1 m; 40 m @ 10 % reflectivity |
 | Point rate / frame | 200 k pts/s, 10 Hz default |
