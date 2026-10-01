@@ -87,7 +87,7 @@ Create any new package with `ros2 pkg create`, never by hand.
 - Keep rosbags, point clouds and other large data out of git (see `.gitignore`).
 
 ## Workflow rules
-- Build and test after every change: `colcon build --packages-select Rover_2 && colcon test --packages-select Rover_2`.
+- Build and test after every change: `colcon build --packages-select rover_2 && colcon test --packages-select rover_2`.
 - Verify against live data when hardware is connected (`ros2 topic list`, `ros2 topic hz`, `ros2 run tf2_tools view_frames`).
 - Do not change motor-control parameters (speed limits, PID gains) without stating the old and new values.
 - Before running anything that moves the motors, tell Jan and wait for confirmation (the rover must be lifted or in a safe area).

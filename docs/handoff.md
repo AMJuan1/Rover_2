@@ -101,3 +101,9 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   2. @jan: `sudo rosdep init && rosdep update`, then reboot (new kernel/NVIDIA driver).
   3. @jan: Reconnect Mid-360 (USB-Ethernet + 12 V) for its ROS test.
 - Blocked on: Mid-360 not connected.
+
+### 2026-10-01 — code — ADR-004 rename implemented
+- Done: re 2026-09-29 10:30 #3: package renamed `Rover_2` → `rover_2` (package.xml, CMakeLists.txt, launch/rsp.launch.py, README, CLAUDE.md build command); package.xml filled (maintainer Jan, Apache-2.0, exec_depends). `colcon build --packages-select rover_2` OK. rosdep initialised.
+- Requests:
+  1. @jan: `rosdep install` (installs ros-humble-xacro, libapr1-dev, libaprutil1-dev), then reboot.
+- Blocked on: `xacro` missing → `ros2 launch rover_2 rsp.launch.py` fails until rosdep install runs.

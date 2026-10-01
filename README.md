@@ -34,7 +34,7 @@ source /opt/ros/$ROS_DISTRO/setup.bash
 rosdep install --from-paths src --ignore-src -r -y
 colcon build --symlink-install
 source install/setup.bash
-ros2 launch Rover_2 rsp.launch.py
+ros2 launch rover_2 rsp.launch.py
 ```
 
 See `docs/setup.md` for full machine setup.
