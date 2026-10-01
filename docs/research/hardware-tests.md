@@ -43,7 +43,10 @@ Add one section per device with: date, model, firmware, driver version, test res
 |---|---|---|
 | 1 | Detected by OS | PASS: link up; ping 1.7 ms avg, 0 % loss |
 | 2 | Vendor tool / raw data | PASS: status push decoded (work_state 01 = sampling, core temp 33.6 °C, HMS 01). Point stream **200 026 pts/s** (2084 pkt/s, 96 pts/pkt, 23 Mbit/s); IMU **200 Hz**. Livox Viewer 2: clean point cloud (Jan, visual); sample recording `2026-09-30_12-30-50.lvx2` (21 MB, kept out of git) |
-| 3–8 | ROS 2 driver tests | Deferred (ROS 2 Humble not installed) |
+| 3 | ROS 2 driver launch | PASS (2026-10-01): livox_ros_driver2 1.2.8, `tests/mid360/mid360.launch.py`, "Init lds lidar success" |
+| 4 | Topics and rates | PASS: `/livox/lidar` 10.00 Hz, 19 968 pts/frame, 5.2 MB/s (PointCloud2, xfer_format 0); `/livox/imu` 200.0 Hz. Frame `livox_frame` |
+| 7 | Load (dev laptop) | Driver ~8 % of one core (Ryzen 9 5900HS) |
+| 5, 6, 8 | Quality in RViz, frames, rosbag | Pending |
 | 9 | Pi 4 load | Not started |
 
 Notes:
@@ -66,5 +69,8 @@ Notes:
 | 2 | Vendor tool / raw data | PASS (rates, 10 s each via `rs-data-collect`): depth 848×480 + RGB 1280×720 @30 → 29.6 / 30.1 fps; depth 1280×720 + RGB 1920×1080 @30 → 28.8 / 29.2 fps; depth + IR 848×480 @90 → 89.9 / 89.9 fps. One 190–290 ms gap per run in depth at 30 fps (start-up, to confirm). `realsense-viewer` visual check pending Jan |
 | 3 | ROS 2 driver launch | PASS: `realsense2_camera` 4.58.4, "RealSense Node Is Up", FW 5.17.3.10 (updated by realsense-viewer) |
 | 4 | Topics and rates | depth 29.98 Hz (24 MB/s), aligned depth 29.81 Hz (55 MB/s), point cloud 29.71 Hz (112 MB/s, ~186 k pts), color **16.0 Hz** in one run vs 29.98 Hz in an earlier run — suspected RGB auto-exposure priority in low light (to confirm) |
-| 5–8 | Data quality, frames, load, recording | Pending (camera_link → camera_color_optical_frame TF present) |
+| 7 | Load (dev laptop) | Driver ~42 % of one core with point cloud + aligned depth enabled. Expect this to be the limiting load on the Pi 4 (test 9) |
+| 5, 6, 8 | Data quality, frames, recording | Pending (camera_link → camera_color_optical_frame TF present) |
+
+Combined run (both drivers, 2026-10-01): lidar 10.00 Hz, IMU 200.0 Hz, color 29.99 Hz, depth 29.70 Hz, point cloud 30.00 Hz — no drops. Color at 30 Hz in normal light supports the auto-exposure explanation for the earlier 16 Hz.
 | 9 | Pi 4 load | Not started |

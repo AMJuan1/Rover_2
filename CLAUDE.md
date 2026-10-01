@@ -9,18 +9,20 @@ ROS 2 differential-drive rover with LiDAR, depth camera, odometry, point cloud /
 - **Communication channel:** `docs/handoff.md` — append-only log with protocol and file-ownership table. Read it after every `git pull`; append an entry before every push.
 - **This repository is the single source of truth.** Anything decided in either tool must end up in `docs/` (decisions in `docs/decisions.md`, research in `docs/research/`). Before starting work, read `docs/` to pick up decisions made elsewhere. Always `git pull` before starting and push when a unit of work is done.
 
-## Current status (as of 2026-09-29)
+## Current status (as of 2026-10-01)
 | Area | Status |
 |---|---|
-| Repo | Created from a single-package ROS 2 robot template; docs structure added |
+| Phase | Hardware evaluation (ADR-005); roadmap on hold. Sensor ROS drivers per ADR-007 |
+| Package | Renamed `rover_2` (ADR-004); `package.xml` complete; builds; `ros2 launch rover_2 rsp.launch.py` OK |
 | `description/robot.urdf.xacro` | Placeholder only (`base_link`, nothing else) |
-| `launch/rsp.launch.py` | Working robot_state_publisher launch (template) |
 | `config/`, `worlds/` | Empty placeholders |
-| `package.xml` | Template placeholders (maintainer, email, description); license should be `Apache-2.0` to match `LICENSE.md`; missing `exec_depend` on `robot_state_publisher`, `xacro`, `launch_ros` |
-| Hardware details | Unknown — all TODO below and in `docs/hardware.md` |
+| Mid-360 | Vendor + ROS tests 1–4 pass (`tests/mid360/`) |
+| D435 | Vendor + ROS tests 1–4 pass (`tests/d435/`); FW 5.17.3.10 |
+| Gimbal camera | Not purchased |
+| Test results | `docs/research/hardware-tests.md` |
 | Previous work | Jan has tested earlier versions with RViz; wants to evaluate more professional visualization tools (ADR-002, pending) |
 
-## First session — do these in order
+## First session — completed 2026-10-01 (kept for setting up a new machine)
 1. Detect the environment yourself: `lsb_release -a`, `echo $ROS_DISTRO`, `ls /opt/ros/`, `lsusb`, `ls /dev/tty* /dev/video*`. Fill the Environment section below with what you find.
 2. Ask Jan for anything you cannot detect: LiDAR, depth camera, motor driver, compute board, IMU models; wheel radius, track width, encoder ticks, sensor mounting positions. Fill `docs/hardware.md` and the Hardware section below.
 3. Fix `package.xml`: maintainer name/email (ask Jan), description, `Apache-2.0` license, missing dependencies. Run `rosdep install --from-paths src --ignore-src -r -y` from the workspace root.
@@ -31,20 +33,22 @@ ROS 2 differential-drive rover with LiDAR, depth camera, odometry, point cloud /
 ## Environment
 - Dev machine (detected 2026-09-29): ASUS laptop, AMD Ryzen 9 5900HS (16 threads, x86_64), 38 GiB RAM
 - OS: Ubuntu 22.04.5 LTS (jammy)
-- ROS 2 distro: Humble (target for 22.04) — **not installed yet** (`/opt/ros/` absent; colcon/rosdep absent)
-- User groups: has `plugdev`; missing `dialout`, `video` (needed for serial/camera access)
-- No rover hardware connected to the dev machine at detection time (no `/dev/ttyUSB*`, `/dev/ttyACM*`, `/dev/video*`)
-- Repo currently cloned at `~/Documents/Claude_Projects/ROVER_V2` (not yet inside a colcon workspace)
-- Workspace: `~/rover_ws/` with this repo cloned at `~/rover_ws/src/Rover_2/`
+- Kernel 6.8.0-138-generic; NVIDIA RTX 3060 Laptop GPU, driver 580
+- ROS 2 Humble desktop + ros-dev-tools; rosdep initialised; `~/.bashrc` sources ROS and the workspace
+- User groups: `video`, `plugdev` (no `dialout` yet)
+- Repo cloned at `~/Documents/Claude_Projects/ROVER_V2`, symlinked as `~/rover_ws/src/Rover_2`
+- Workspace: `~/rover_ws/` (also holds `livox_ros_driver2` from source)
+- Mid-360 link: USB-Ethernet RTL8153 `enx6c6e071000f8`, NM profile `livox-mid360` (192.168.1.50 + 192.168.1.5)
+- Vendor tools: Livox Viewer 2 in `~/livox/`; Livox-SDK2 in `/usr/local`; librealsense2 2.58.4 (apt)
 - Build: `cd ~/rover_ws && colcon build --symlink-install`
 - Source after build: `source ~/rover_ws/install/setup.bash`
 
 ## Hardware (details in docs/hardware.md)
-- LiDAR: <MODEL — TODO>
-- Depth camera: <MODEL — TODO>
+- LiDAR: Livox Mid-360 (192.168.1.151; built-in 6-axis IMU)
+- Depth camera: Intel RealSense D435 (**no IMU**; not a D435i)
 - Motor driver / controller: <MODEL — TODO>
-- Compute: <BOARD/PC — TODO>
-- IMU: <MODEL or none — TODO>
+- Compute: Raspberry Pi 4 on board (RAM — TODO); dev/operator laptop runs SLAM
+- IMU: Mid-360 built-in (no separate IMU yet)
 
 ## Roadmap (suggested order; confirm with Jan)
 1. Robot description: full URDF/xacro with real dimensions and sensor frames.

@@ -107,3 +107,11 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
 - Requests:
   1. @jan: `rosdep install` (installs ros-humble-xacro, libapr1-dev, libaprutil1-dev), then reboot.
 - Blocked on: `xacro` missing → `ros2 launch rover_2 rsp.launch.py` fails until rosdep install runs.
+
+### 2026-10-01 — code — Both sensors running in ROS 2
+- Done: Mid-360 ROS tests 3–4 (10.00 Hz cloud, 19 968 pts/frame; IMU 200 Hz) and combined run with D435 (no drops) recorded in `hardware-tests.md`; driver CPU on dev laptop: Livox ~8 %, RealSense ~42 % of one core. `ros2 launch rover_2 rsp.launch.py` verified after rosdep installed xacro. CLAUDE.md status/environment/hardware sections updated (re 2026-09-29 10:30 #4, 11:55 #2); first-session checklist marked complete.
+- Decided: Nothing new.
+- Requests:
+  1. @jan: Pi 4 RAM size (for CLAUDE.md hardware section).
+  2. @app: Still open — 2026-10-01 #1 (D435i → D435 in research docs / ADR-006).
+- Blocked on: nothing.
