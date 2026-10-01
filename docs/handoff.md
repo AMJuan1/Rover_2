@@ -155,3 +155,16 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   1. @jan: `rosdep install` (adds `joint_state_publisher`); until then run `tests/combined/sensors.launch.py jsp:=false`.
   2. @jan: Decide on copyright linter: add Apache-2.0 headers to source files, or disable `ament_copyright` in CMakeLists (only remaining `colcon test` failure, 6 files).
 - Blocked on: nothing.
+
+### 2026-10-01 — code — Combined view verified; handing over for electronics / Pi 4 phase
+- Done: `tests/combined/sensors.launch.py` verified by Jan: URDF robot model + Mid-360 + D435 in one RViz view (fix `0e24917`: scoped includes so `rviz` arg is not overwritten). Live: lidar 10.0 Hz, D435 cloud 29.8 Hz.
+- State for the electronics / Pi 4 discussion:
+  1. Dev laptop: ROS 2 Humble, both drivers working; Mid-360 needs a USB-Ethernet adapter (no RJ-45 on the laptop).
+  2. Bandwidth measured: Mid-360 ≈ 23 Mbit/s raw UDP (5.3 MB/s as ROS PointCloud2); D435 raw depth 848×480@30 ≈ 24 MB/s, RGB 1280×720@30 ≈ 83 MB/s (uncompressed). Raw RGB will not fit a 100 Mbit tether → compression or on-board recording needed (relevant to ADR-006).
+  3. Driver CPU (Ryzen 9, one core): Livox ~8 %, RealSense ~42 % with point cloud + alignment. Pi 4 plan (14:00 #3): raw depth + color only, fixed exposure.
+  4. Power observed: Mid-360 on 12 V bench supply (manual: 6.5 W nominal, 18 W for ~8 s at start-up). D435 bus-powered over USB 3.
+  5. Pi 4 has one Ethernet port → on-board switch needed for Mid-360 + gimbal + tether (ADR-006).
+- Open items: lens identity cover test (15:10 #2), crop box (15:10 #3), copyright-linter decision, Pi 4 test 9.
+- Requests:
+  1. @app: Electronics discussion with Jan (power distribution, motor drivers for 150:1 encoder motors + 10 RPM motors, Pi 4 networking/switch, tether bandwidth). Record outcomes as ADRs and hand-off requests for Code (Pi 4 OS image, ROS install, wiring tests).
+- Blocked on: electronics decisions (Jan + app).
