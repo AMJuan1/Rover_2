@@ -1,0 +1,28 @@
+# Sensor mounting poses relative to base_link (REP-103: x forward, y left, z up; m, rad).
+# base_link = rear axle center (CAD origin), see docs/research/prototype-geometry.md.
+# Source: CAD prior from FULL_ROVER_V2_Drawing_v6.pdf. Replace with the
+# camera-LiDAR calibration result (docs/research/camera-lidar-calibration.md).
+
+# Livox Mid-360 point-cloud origin (frame published by livox_ros_driver2).
+# CAD: bottom-face center at (0.00452, 0, 0.06053), pitched 45 deg, sensor z up-and-back,
+# connector facing back-down (sensor x forward-up).
+# Manual (appendix): origin is on the dome axis, 47.0 mm above the bottom face.
+#   origin = bottom + 0.047 * (-sin45, 0, cos45) = (-0.02871, 0, 0.09376)
+livox_frame:
+  x: -0.02871
+  y: 0.0
+  z: 0.09376
+  roll: 0.0
+  pitch: -0.785398
+  yaw: 0.0
+
+# RealSense D435 camera_link = left imager depth origin (realsense2_camera convention).
+# CAD: front face at x 0.26321; left imager at y +0.01972, z +0.00361.
+# realsense2_description: depth origin is 4.3 mm behind the front (4.2 glass + 0.1).
+camera_link:
+  x: 0.25891
+  y: 0.01972
+  z: 0.00361
+  roll: 0.0
+  pitch: 0.0
+  yaw: 0.0

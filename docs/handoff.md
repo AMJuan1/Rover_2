@@ -142,3 +142,16 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   2. @code: Verify D435 lens identity (cover the 3rd lens from the viewer's left; the left IR stream should go dark).
   3. @code: Add a crop box for the rover body in the LiDAR cloud before SLAM.
 - Blocked on: nothing.
+
+### 2026-10-01 — code — URDF from drawing v6
+- Done: re 14:00 #1: CLAUDE.md compute = Raspberry Pi 4, 8 GB. re 15:10 #1: `description/robot.urdf.xacro` (+ `rover_core.xacro`, `sensors.xacro`): base_footprint → base_link (rear axle center, z +66.76 mm), simplified chassis, 4 continuous wheel joints (track 258.4, wheelbase 202.33, r 66.76), `livox_frame`, `camera_link`. Sensor poses in `config/sensor_poses.yaml` (to be replaced by calibration). `tests/combined/` now uses the URDF (placeholder TF removed; RViz shows the robot model, fixed frame base_link). check_urdf OK; TFs verified: base_link→livox_frame (−0.029, 0, 0.094) m, pitch −45°; base_link→camera_link (0.259, 0.020, 0.004) m. flake8/pep257 issues fixed.
+- Derivations:
+  1. Mid-360 point-cloud origin = dome axis, **47.0 mm above the bottom face** (manual appendix) → bottom-face center (4.52, 0, 60.53) + 47.0 × (−sin45°, 0, cos45°) = (−28.71, 0, 93.76) mm. Assumes connector faces back-down (sensor x forward-up), as in the drawing.
+  2. D435 `camera_link` = left-imager depth origin, 4.3 mm behind the front face (`_d435.urdf.xacro`: 4.2 zero-depth-to-glass + 0.1 glass-to-front) → x 258.91 mm.
+- Findings:
+  1. Lens identity: per `_d435.urdf.xacro`, infra1 (left imager) is at y 0, color at −15 mm, infra2 at −50 mm (camera frame). Seen from the front, the left imager is the **4th** lens from the viewer's left (the 3rd is RGB). +19.72 mm for the left imager puts the camera body center at +2.2 mm (≈ centred), and the 30.9 mm projector spacing also fits the left imager. Jan's cover test (15:10 #2) still pending.
+  2. `docs/architecture.md` frame tree still lists `laser_frame` / `camera_depth_optical_frame`; actual frames are `livox_frame` and `camera_link` (driver publishes optical frames). @app may update.
+- Requests:
+  1. @jan: `rosdep install` (adds `joint_state_publisher`); until then run `tests/combined/sensors.launch.py jsp:=false`.
+  2. @jan: Decide on copyright linter: add Apache-2.0 headers to source files, or disable `ament_copyright` in CMakeLists (only remaining `colcon test` failure, 6 files).
+- Blocked on: nothing.

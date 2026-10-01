@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rover_2">
 
-    <!-- Example link -->
-    <link name="base_link"></link>
+    <!-- Rover_2 prototype (FULL_ROVER_V2_Drawing_v6). Frames per REP-103/105. -->
+    <xacro:include filename="rover_core.xacro"/>
+    <xacro:include filename="sensors.xacro"/>
 
 </robot>

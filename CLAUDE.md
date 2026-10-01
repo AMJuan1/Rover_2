@@ -47,7 +47,7 @@ ROS 2 differential-drive rover with LiDAR, depth camera, odometry, point cloud /
 - LiDAR: Livox Mid-360 (192.168.1.151; built-in 6-axis IMU)
 - Depth camera: Intel RealSense D435 (**no IMU**; not a D435i)
 - Motor driver / controller: <MODEL — TODO>
-- Compute: Raspberry Pi 4 on board (RAM — TODO); dev/operator laptop runs SLAM
+- Compute: Raspberry Pi 4, 8 GB RAM, on board; dev/operator laptop runs SLAM
 - IMU: Mid-360 built-in (no separate IMU yet)
 
 ## Roadmap (suggested order; confirm with Jan)

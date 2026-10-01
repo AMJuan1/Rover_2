@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Sensor frames. Poses come from config/sensor_poses.yaml (CAD prior, later calibration).
+         Only the driver reference frames are defined here: livox_ros_driver2 stamps clouds in
+         livox_frame, and realsense2_camera publishes camera_link -> *_optical_frame itself. -->
+    <xacro:property name="poses" value="${xacro.load_yaml('$(find rover_2)/config/sensor_poses.yaml')}"/>
+
+    <material name="sensor_dark"><color rgba="0.15 0.15 0.15 1"/></material>
+    <material name="sensor_glass"><color rgba="0.3 0.3 0.35 0.8"/></material>
+
+    <xacro:macro name="pose_origin" params="p">
+        <origin xyz="${p['x']} ${p['y']} ${p['z']}" rpy="${p['roll']} ${p['pitch']} ${p['yaw']}"/>
+    </xacro:macro>
+
+    <!-- Livox Mid-360: origin on the dome axis, 47.0 mm above the bottom face (manual appendix). -->
+    <joint name="livox_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="livox_frame"/>
+        <xacro:pose_origin p="${poses['livox_frame']}"/>
+    </joint>
+
+    <link name="livox_frame">
+        <visual>
+            <!-- Body 65 x 65 mm, 39.5 mm tall, bottom at z = -0.047 -->
+            <origin xyz="0 0 ${-0.047 + 0.0395 / 2}" rpy="0 0 0"/>
+            <geometry><box size="0.065 0.065 0.0395"/></geometry>
+            <material name="sensor_dark"/>
+        </visual>
+        <visual>
+            <origin xyz="0 0 -0.0075" rpy="0 0 0"/>
+            <geometry><sphere radius="0.0205"/></geometry>
+            <material name="sensor_glass"/>
+        </visual>
+    </link>
+
+    <!-- RealSense D435: camera_link = left imager depth origin; body centre is 17.5 mm to its right
+         and the front glass 4.3 mm ahead (realsense2_description _d435.urdf.xacro). -->
+    <joint name="camera_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="camera_link"/>
+        <xacro:pose_origin p="${poses['camera_link']}"/>
+    </joint>
+
+    <link name="camera_link">
+        <visual>
+            <origin xyz="${0.0043 - 0.02505 / 2} -0.0175 0" rpy="0 0 0"/>
+            <geometry><box size="0.02505 0.090 0.025"/></geometry>
+            <material name="sensor_dark"/>
+        </visual>
+    </link>
+
+</robot>
