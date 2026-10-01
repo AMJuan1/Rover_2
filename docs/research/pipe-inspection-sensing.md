@@ -25,10 +25,11 @@
 | Sensor | Assessment | To verify in tests |
 |---|---|---|
 | Livox Mid-360 | Blind zone 0.1 m < smallest wall distance (~0.28 m). Vertical FOV −7° to 52°: crown/invert near the rover are covered a short distance ahead as it advances. Concrete returns well. | Point density on walls/crown; mounting height/tilt |
-| RealSense D435i | Min depth ~0.2–0.3 m: marginal on walls in 22" pipes, fine in 35" and forward along the pipe. Active IR independent of light. RGB 1080p rolling shutter. | Depth fill rate at 848×480; RGB texture with LEDs while moving; CPU load on Pi 4 |
+| RealSense D435 (no IMU) | Min depth ~0.2–0.3 m: marginal on walls in 22" pipes, fine in 35" and forward along the pipe. Active IR independent of light. RGB 1080p rolling shutter. | Depth fill rate at 848×480; RGB texture with LEDs while moving; CPU load on Pi 4 |
 | Gimbal camera (not bought) | Size not a constraint. Operator inspection. Streams its own encoded video (no encoding load on the Pi). | Pitch range to crown (+90°); dust/humidity sealing |
 
 ## Localization
+- IMU source: the **Mid-360 built-in IMU (200 Hz)** is the only IMU; the depth camera is a D435 without IMU (corrected 2026-10-01). Nothing in this design depended on a camera IMU.
 - Joint protrusions give LiDAR SLAM features along the pipe axis, which largely avoids the "sliding" problem of perfectly smooth pipes. Risk remains that joints are periodic and similar (possible misalignment by one joint spacing).
 - Fusion is the robust answer: **LiDAR-inertial SLAM + wheel odometry + IMU**. Wheels slip on protrusions (LiDAR corrects that); LiDAR can misalign on repetitive joints (wheels correct that).
 - Tether length counter: optional, cheap backup for chainage; not required.
@@ -41,7 +42,7 @@
 ## Compute and data flow (Raspberry Pi 4)
 | Task | Where | Notes |
 |---|---|---|
-| Sensor drivers (Mid-360, D435i), motor control | Pi 4 | Verify CPU with both drivers running |
+| Sensor drivers (Mid-360, D435), motor control | Pi 4 | Verify CPU with both drivers running |
 | Recording raw data (rosbag) | Pi 4 → USB 3 SSD | SD card is too slow for LiDAR + depth |
 | Gimbal video | Gimbal → switch → tether → operator laptop | Bypasses the Pi |
 | Live SLAM + map view (Foxglove) | Operator laptop (Ryzen 9) | Mid-360 raw stream ~200k pts/s fits in the Ethernet tether; move SLAM on board only if a stronger computer is added |
@@ -55,7 +56,7 @@
 | Goal | Candidates |
 |---|---|
 | Live LiDAR-inertial SLAM (laptop) | FAST-LIO2, or similar Livox-compatible LIO |
-| Colored point cloud / textured model (offline) | FAST-LIVO2, R3LIVE, RTAB-Map (D435i) |
+| Colored point cloud / textured model (offline) | FAST-LIVO2, R3LIVE, RTAB-Map (D435) |
 | Mesh + texture | OpenMVS or similar, offline |
 
 ## Commercial reference: FJD Trion P2 handheld SLAM scanner (~USD 9,999)

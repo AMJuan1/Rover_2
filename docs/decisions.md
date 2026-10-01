@@ -71,3 +71,11 @@ Record each design decision before implementing it. Newest at the bottom.
 - Options: (A) vendor drivers as-is, launched from standalone test launch files; (B) wrap them in the `rover_2` package now.
 - Decision: A. `livox_ros_driver2` built from source in `~/rover_ws/src/` (not vendored in this repo; Livox-SDK2 installed to `/usr/local`). `realsense2_camera` 4.58.4 from apt (`ros-humble-realsense2-camera`). Test launch files and configs live in `tests/mid360/` and `tests/d435/` and are run by path (`ros2 launch <path>`).
 - Consequences: Integration into `rover_2` launch tree, URDF frames and `config/` comes with the rover build (roadmap), via a later ADR. Driver sources must be re-fetched on a new machine (see `tests/*/README.md`).
+
+## ADR-008: Depth camera is a D435 (no IMU) — amends ADR-006
+- Date: 2026-10-01
+- Status: Accepted
+- Context: Claude Code detected the unit as a RealSense D435 (USB PID 0x0B07), not a D435i; it has no IMU.
+- Options: (A) buy a D435i; (B) keep the D435 and use the Mid-360 built-in IMU (200 Hz) as the only IMU.
+- Decision: B. ADR-006 is unchanged in substance: read "D435i" as "D435". The design never relied on the camera IMU; LiDAR-inertial SLAM uses the Mid-360 IMU, fused with wheel odometry.
+- Consequences: Camera pose relative to the LiDAR must come from extrinsic calibration (no camera IMU to aid visual-inertial methods). Pipelines that expect a camera IMU are excluded.

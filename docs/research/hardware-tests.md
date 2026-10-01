@@ -6,8 +6,8 @@ Phase defined by ADR-005: test each new device standalone on the dev machine bef
 
 | Device | Model | Interface | ROS 2 Humble driver | Status |
 |---|---|---|---|---|
-| LiDAR (new) | Livox Mid-360 | Ethernet 100BASE-TX (PTPv2 sync), built-in IMU | `livox_ros_driver2` | Not started |
-| Depth camera (new) | Intel RealSense D435i | USB 3, built-in IMU | `realsense2_camera` (realsense-ros) | Not started |
+| LiDAR (new) | Livox Mid-360 | Ethernet 100BASE-TX (PTPv2 sync), built-in IMU | `livox_ros_driver2` 1.2.8 | Tests 1–4 PASS; 5, 6, 8, 9 pending |
+| Depth camera (new) | Intel RealSense D435 (no IMU; corrected 2026-10-01) | USB 3 | `realsense2_camera` 4.58.4 | Tests 1–4 PASS; 5, 6, 8, 9 pending |
 | Gimbal camera | Not purchased yet (candidate: SIYI A8 mini) | Ethernet (video + control SDK) | Community SIYI ROS SDKs, to be evaluated | Selection pending: pipe diameter and mapping role |
 
 ## Standard test sequence (per device)
@@ -22,7 +22,7 @@ Phase defined by ADR-005: test each new device standalone on the dev machine bef
 | 6 | Frames | `ros2 run tf2_tools view_frames` | Frame IDs correct (REP-103/105) |
 | 7 | Load | `top` / `htop` while streaming | CPU/USB bandwidth acceptable |
 | 8 | Recording | `ros2 bag record` short sample (kept out of git) | Bag plays back correctly |
-| 9 | Raspberry Pi 4 load | Run Mid-360 + D435i drivers and recording on the Pi 4 simultaneously | No dropped messages; CPU headroom documented |
+| 9 | Raspberry Pi 4 load | Run Mid-360 + D435 drivers and recording on the Pi 4 simultaneously | No dropped messages; CPU headroom documented |
 
 ## Results
 
