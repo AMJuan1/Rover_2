@@ -1,7 +1,7 @@
-# Prototype geometry (FULL ROVER V2 drawing v4)
+# Prototype geometry (FULL ROVER V2 drawing v6)
 - Date: 2026-10-01
-- Source: `FULL_ROVER_V2_Drawing_v4.pdf` (Fusion 360, mm, 3 sheets, J. Morales 2026-10-01). Not stored in the repo yet.
-- Status: Read by the app; items marked **(derived)** are computed from the drawing, items marked **(to confirm)** await Jan.
+- Source: `FULL_ROVER_V2_Drawing_v6.pdf` (v4 + D435 left-imager position) (Fusion 360, mm, 3 sheets, J. Morales 2026-10-01). Not stored in the repo yet.
+- Status: Complete for the URDF; all values confirmed by Jan. Open (deferred): front/rear motor speed matching.
 
 ## Frame convention
 - CAD origin = **rear axle center** (sheet 3). Proposed `base_link` = CAD origin; `base_footprint` = projection on the ground (z = −66.76 mm).
@@ -25,7 +25,7 @@
 ## Sensor poses relative to the origin
 | Sensor | x | y | z | Orientation | Notes |
 |---|---|---|---|---|---|
-| D435 front glass, **2nd lens from the viewer's left (IR projector)** | +263.21 | −11.19 (confirmed: rover's right) | +3.61 (confirmed: above axle) | Level, facing forward | Not the ROS reference. realsense-ros `camera_link` = depth origin = **left imager**, named from the camera's own view → **3rd lens from the viewer's left** in a front view. Needed: y, z of that lens (Jan to measure in Fusion); Code to verify lens identity by covering a lens and watching which IR stream goes dark |
+| **D435 left imager (depth origin = realsense-ros `camera_link` reference), 3rd lens from the viewer's left** | +263.21 (front glass) | **+19.72** (rover's left) | +3.61 (above axle) | Level, facing forward | Drawing v6. Check: the IR projector (2nd lens) was at y −11.19 in v4 → 30.9 mm apart, consistent with the D435 layout. Code: apply the glass-to-optical-center offset from `realsense2_description` and verify lens identity by covering a lens |
 | Mid-360 **center of the bottom face of the base** (confirmed) | +4.52 | 0 | +60.53 | Pitched 45°, sensor z-axis pointing **up and backward** → URDF rpy = (0, −π/4, 0) | Must be converted to the Livox point-cloud origin as defined in the Mid-360 manual (the IMU sits at z = −44.12 mm in the LiDAR frame, so the frame origin is well above the base) |
 
 Design intent (Jan): the LiDAR maps the section already travelled; the depth camera previews what is ahead.
