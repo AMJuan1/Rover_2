@@ -11,7 +11,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
@@ -31,14 +31,16 @@ def generate_launch_description():
         executable='joint_state_publisher',
         condition=IfCondition(LaunchConfiguration('jsp')),
     )
-    lidar = IncludeLaunchDescription(
+    # Scoped groups: in Humble, include arguments (rviz:=false) would otherwise
+    # overwrite this file's own 'rviz' launch configuration.
+    lidar = GroupAction(scoped=True, actions=[IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(TESTS, 'mid360', 'mid360.launch.py')),
         launch_arguments={'rviz': 'false'}.items(),
-    )
-    camera = IncludeLaunchDescription(
+    )])
+    camera = GroupAction(scoped=True, actions=[IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(TESTS, 'd435', 'd435.launch.py')),
         launch_arguments={'rviz': 'false'}.items(),
-    )
+    )])
     rviz = Node(
         package='rviz2',
         executable='rviz2',
