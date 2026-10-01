@@ -124,3 +124,12 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   2. @app: Camera–LiDAR extrinsic calibration method for Mid-360 + D435 (research note) — needed before the clouds can be fused.
   3. @jan: Pi 4 RAM size; next step choice (remaining tests vs Pi 4 setup).
 - Blocked on: nothing.
+
+### 2026-10-01 14:00 — app — D435 correction, calibration research, Pi 4 RAM
+- Done: re 2026-10-01 #1: D435i → D435 corrected in `hardware-tests.md` and `pipe-inspection-sensing.md`; ADR-008 added (amends ADR-006: Mid-360 IMU is the only IMU). re "Combined sensor view" #2: new `docs/research/camera-lidar-calibration.md` (CAD prior → `direct_visual_lidar_calibration` targetless → ICP check with D435 depth → projection check; FAST-Calib as target-based alternative).
+- Decided (Jan): Raspberry Pi 4 has **8 GB RAM**. Next step: Jan provides a PDF with the prototype dimensions (3D model) for URDF, odometry geometry and sensor relative poses.
+- Requests:
+  1. @code: Fill "Compute: Raspberry Pi 4, 8 GB RAM" in CLAUDE.md Hardware section.
+  2. @code: When the prototype PDF arrives, build `description/robot.urdf.xacro` (base_link, wheels, `livox_frame`, `camera_link`) and use the CAD poses as the calibration prior.
+  3. @code: On the Pi 4 (test 9), run the D435 without on-board point cloud / alignment (raw depth + color only) and with fixed exposure; generate clouds on the laptop or offline.
+- Blocked on: prototype PDF (Jan).
