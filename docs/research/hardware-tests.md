@@ -42,10 +42,27 @@ Add one section per device with: date, model, firmware, driver version, test res
 | # | Test | Result |
 |---|---|---|
 | 1 | Detected by OS | PASS: link up; ping 1.7 ms avg, 0 % loss |
-| 2 | Vendor tool / raw data | PASS (raw): status push decoded (work_state 01 = sampling, core temp 33.6 °C, HMS 01). Point stream **200 026 pts/s** (2084 pkt/s, 96 pts/pkt, 23 Mbit/s); IMU **200 Hz**. Livox Viewer 2 v2.3.0 launched — visual check pending Jan |
+| 2 | Vendor tool / raw data | PASS: status push decoded (work_state 01 = sampling, core temp 33.6 °C, HMS 01). Point stream **200 026 pts/s** (2084 pkt/s, 96 pts/pkt, 23 Mbit/s); IMU **200 Hz**. Livox Viewer 2: clean point cloud (Jan, visual); sample recording `2026-09-30_12-30-50.lvx2` (21 MB, kept out of git) |
 | 3–8 | ROS 2 driver tests | Deferred (ROS 2 Humble not installed) |
 | 9 | Pi 4 load | Not started |
 
 Notes:
 - The sensor ships sending data to `192.168.1.5` (SDK default), not `192.168.1.50` (manual). Giving the host both addresses avoids reconfiguring the sensor.
 - 23 Mbit/s raw point stream confirms the tethered-Ethernet budget in ADR-006 (100BASE-TX is sufficient for one Mid-360).
+
+### Intel RealSense D435 — 2026-10-01 (Claude Code, dev laptop)
+**The unit is a D435 (USB PID 0x0B07), not a D435i: it has no IMU.** Docs that assume a D435i IMU (ADR-006, `pipe-inspection-sensing.md`) need review.
+
+| Item | Value |
+|---|---|
+| Serial | 317222072008 |
+| Firmware | 5.13.0.55 (SDK 2.58.4 recommends ≥ 5.17.3.10) |
+| SDK | librealsense2-utils 2.58.4 (apt, no DKMS; kernel 6.8.0-85) |
+| Link | USB 3.2 descriptor, direct laptop port (bus 002) |
+
+| # | Test | Result |
+|---|---|---|
+| 1 | Detected by OS | PASS: `8086:0b07`, `/dev/video0–5`, USB 3 |
+| 2 | Vendor tool / raw data | PASS (rates, 10 s each via `rs-data-collect`): depth 848×480 + RGB 1280×720 @30 → 29.6 / 30.1 fps; depth 1280×720 + RGB 1920×1080 @30 → 28.8 / 29.2 fps; depth + IR 848×480 @90 → 89.9 / 89.9 fps. One 190–290 ms gap per run in depth at 30 fps (start-up, to confirm). `realsense-viewer` visual check pending Jan |
+| 3–8 | ROS 2 driver tests | Deferred (no ROS until all devices tested — Jan) |
+| 9 | Pi 4 load | Not started |

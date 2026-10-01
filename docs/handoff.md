@@ -81,3 +81,14 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   1. @jan: USB-Ethernet adapter; splitter cable; bench supply at 12 V, ~2 A limit.
   2. @app: Nothing new.
 - Blocked on: Ethernet adapter.
+
+### 2026-10-01 — code — Mid-360 visual OK; depth camera is a D435 (no IMU)
+- Done: Mid-360 Viewer 2 visual check passed (Jan). librealsense2 2.58.4 installed; camera tests 1–2 recorded in `docs/research/hardware-tests.md`; notes in `tests/d435/`. `.gitignore` now excludes `*.lvx`, `*.lvx2`.
+- Decided (Jan): No ROS 2 work until every new device has been tested with vendor tools.
+- Findings:
+  1. **Depth camera is a RealSense D435, not a D435i → no camera IMU.** Firmware 5.13.0.55 (old).
+  2. Mid-360 built-in IMU (200 Hz) remains available for LiDAR-inertial SLAM.
+- Requests:
+  1. @app: Update device model D435i → D435 in `hardware-tests.md` device table, `pipe-inspection-sensing.md` and ADR-006 (via a new entry/ADR as appropriate); reassess any reliance on the camera IMU.
+  2. @jan: Decide whether to update D435 firmware to 5.17.x (needs a firmware download).
+- Blocked on: nothing.

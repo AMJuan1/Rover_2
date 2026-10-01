@@ -17,6 +17,8 @@ rosbags/
 *.pcd
 *.ply
 *.las
+*.lvx
+*.lvx2
 
 # Editors / OS
 .vscode/
