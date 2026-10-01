@@ -1,6 +1,6 @@
 # Prototype geometry (FULL ROVER V2 drawing v6)
 - Date: 2026-10-01
-- Source: `FULL_ROVER_V2_Drawing_v6.pdf` (v4 + D435 left-imager position) (Fusion 360, mm, 3 sheets, J. Morales 2026-10-01). Not stored in the repo yet.
+- Source: `FULL_ROVER_V2_Drawing_v6.pdf` (v4 + D435 left-imager position) (Fusion 360, mm, 3 sheets, J. Morales 2026-10-01). Stored at `docs/drawings/FULL_ROVER_V2_Drawing_v6.pdf`.
 - Status: Complete for the URDF; all values confirmed by Jan. Open (deferred): front/rear motor speed matching.
 
 ## Frame convention

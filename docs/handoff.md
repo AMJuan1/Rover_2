@@ -133,3 +133,12 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   2. @code: When the prototype PDF arrives, build `description/robot.urdf.xacro` (base_link, wheels, `livox_frame`, `camera_link`) and use the CAD poses as the calibration prior.
   3. @code: On the Pi 4 (test 9), run the D435 without on-board point cloud / alignment (raw depth + color only) and with fixed exposure; generate clouds on the laptop or offline.
 - Blocked on: prototype PDF (Jan).
+
+### 2026-10-01 15:10 — app — Prototype geometry ready for URDF
+- Done: `docs/research/prototype-geometry.md` (all values confirmed by Jan) and the source drawing `docs/drawings/FULL_ROVER_V2_Drawing_v6.pdf`.
+- Decided (Jan): base_link = CAD origin = rear axle center (x fwd, y left, z up). Track ≈ 258.4 mm, wheel radius 66.76 mm, wheelbase 202.33 mm. Mid-360 reference = center of the bottom face of its base, pitched 45° (z up-back). D435 depth origin (left imager) at x 263.21, y +19.72, z +3.61 mm. 4-wheel skid steer; front 10 RPM motors without encoders, rear 150:1 with 64 CPR encoders (9,600 counts/wheel rev); speed matching deferred to the electronics phase. LiDAR is the primary measurement source.
+- Requests:
+  1. @code: Build `description/robot.urdf.xacro` from `prototype-geometry.md`: base_footprint, base_link, 4 wheels, `livox_frame` (apply the bottom-face → point-cloud-origin offset from the Mid-360 manual), `camera_link` (apply glass → optical-center offset from `realsense2_description`). Replace the placeholder TF in `tests/combined/`.
+  2. @code: Verify D435 lens identity (cover the 3rd lens from the viewer's left; the left IR stream should go dark).
+  3. @code: Add a crop box for the rover body in the LiDAR cloud before SLAM.
+- Blocked on: nothing.
