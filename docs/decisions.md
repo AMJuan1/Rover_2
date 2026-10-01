@@ -79,3 +79,11 @@ Record each design decision before implementing it. Newest at the bottom.
 - Options: (A) buy a D435i; (B) keep the D435 and use the Mid-360 built-in IMU (200 Hz) as the only IMU.
 - Decision: B. ADR-006 is unchanged in substance: read "D435i" as "D435". The design never relied on the camera IMU; LiDAR-inertial SLAM uses the Mid-360 IMU, fused with wheel odometry.
 - Consequences: Camera pose relative to the LiDAR must come from extrinsic calibration (no camera IMU to aid visual-inertial methods). Pipelines that expect a camera IMU are excluded.
+
+## ADR-009: Live-feed camera = Arducam USB on pan/tilt servos (gimbal deferred) — amends ADR-006
+- Date: 2026-10-01
+- Status: Accepted (Jan)
+- Context: Jan already owns an Arducam USB 2.0 1080p day/night camera with IR-cut and IR LEDs; a gimbal camera is not needed yet.
+- Options: (A) buy a gimbal camera (SIYI A8 mini candidate); (B) Arducam on pan/tilt servos with a white LED that moves with it.
+- Decision: B for now. Gimbal deferred.
+- Consequences: The Pi 4 handles the live feed (USB 2 capture, MJPEG or hardware H.264 streaming) and the servo control. A 5–6 V servo rail is needed. See `docs/research/electronics.md`.
