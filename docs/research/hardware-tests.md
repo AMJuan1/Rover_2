@@ -64,5 +64,7 @@ Notes:
 |---|---|---|
 | 1 | Detected by OS | PASS: `8086:0b07`, `/dev/video0–5`, USB 3 |
 | 2 | Vendor tool / raw data | PASS (rates, 10 s each via `rs-data-collect`): depth 848×480 + RGB 1280×720 @30 → 29.6 / 30.1 fps; depth 1280×720 + RGB 1920×1080 @30 → 28.8 / 29.2 fps; depth + IR 848×480 @90 → 89.9 / 89.9 fps. One 190–290 ms gap per run in depth at 30 fps (start-up, to confirm). `realsense-viewer` visual check pending Jan |
-| 3–8 | ROS 2 driver tests | Deferred (no ROS until all devices tested — Jan) |
+| 3 | ROS 2 driver launch | PASS: `realsense2_camera` 4.58.4, "RealSense Node Is Up", FW 5.17.3.10 (updated by realsense-viewer) |
+| 4 | Topics and rates | depth 29.98 Hz (24 MB/s), aligned depth 29.81 Hz (55 MB/s), point cloud 29.71 Hz (112 MB/s, ~186 k pts), color **16.0 Hz** in one run vs 29.98 Hz in an earlier run — suspected RGB auto-exposure priority in low light (to confirm) |
+| 5–8 | Data quality, frames, load, recording | Pending (camera_link → camera_color_optical_frame TF present) |
 | 9 | Pi 4 load | Not started |

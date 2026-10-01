@@ -60,3 +60,13 @@ See `docs/research/hardware-tests.md` (per-device results section).
 | Livox Viewer 2 v2.3.0 | `~/livox/LivoxViewer2/` (zip sha256 `e6b77ccd…5727af2`); launch `~/livox/LivoxViewer2/LivoxViewer2.sh`. Smoke-started OK without a sensor (UE4 app, RTX 3060, X11) |
 | cmake | Pending (Jan runs `sudo apt install -y cmake`) |
 | Livox-SDK2, livox_ros_driver2, ROS 2 Humble | Deferred by Jan |
+
+## ROS 2 (2026-10-01)
+- Livox-SDK2 built in `~/livox/Livox-SDK2` and installed to `/usr/local` (`sudo make install`).
+- `livox_ros_driver2` cloned to `~/rover_ws/src/livox_ros_driver2`; build without its `build.sh` (that script deletes the whole workspace `build/` and `install/`):
+  ```bash
+  cd ~/rover_ws/src/livox_ros_driver2 && cp -f package_ROS2.xml package.xml && cp -rf launch_ROS2 launch
+  cd ~/rover_ws && colcon build --packages-select livox_ros_driver2 --cmake-args -DROS_EDITION=ROS2 -DDISTRO_ROS=humble -DCMAKE_BUILD_TYPE=Release
+  ```
+- Config: `MID360_config.json` here (sensor 192.168.1.151, host 192.168.1.5).
+- Launch: `ros2 launch ~/rover_ws/src/Rover_2/tests/mid360/mid360.launch.py [rviz:=true]` → `/livox/lidar` (PointCloud2), `/livox/imu`.

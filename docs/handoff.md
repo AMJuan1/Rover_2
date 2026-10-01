@@ -92,3 +92,12 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   1. @app: Update device model D435i → D435 in `hardware-tests.md` device table, `pipe-inspection-sensing.md` and ADR-006 (via a new entry/ADR as appropriate); reassess any reliance on the camera IMU.
   2. @jan: Decide whether to update D435 firmware to 5.17.x (needs a firmware download).
 - Blocked on: nothing.
+
+### 2026-10-01 — code — ROS 2 Humble installed; D435 running in ROS
+- Done: ROS 2 Humble desktop + ros-dev-tools + realsense2_camera 4.58.4 installed; Livox-SDK2 installed; livox_ros_driver2 built in `~/rover_ws`. Test launch files/configs in `tests/mid360/`, `tests/d435/`; rate tool `tests/tools/topic_rates.sh`. D435 ROS tests 3–4 recorded. D435 firmware now 5.17.3.10.
+- Decided: ADR-007 (vendor drivers + standalone test launches for this phase).
+- Requests:
+  1. @jan: Confirm ADR-004 rename `Rover_2` → `rover_2` directly to Code (blocked by permission system pending explicit confirmation).
+  2. @jan: `sudo rosdep init && rosdep update`, then reboot (new kernel/NVIDIA driver).
+  3. @jan: Reconnect Mid-360 (USB-Ethernet + 12 V) for its ROS test.
+- Blocked on: Mid-360 not connected.

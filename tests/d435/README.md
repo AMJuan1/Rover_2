@@ -30,3 +30,8 @@ No ROS in this phase: test with the librealsense2 SDK tools only (`realsense-vie
 
 ## Results
 See `docs/research/hardware-tests.md` (per-device results section).
+
+## ROS 2 (2026-10-01)
+- Driver: `ros-humble-realsense2-camera` 4.58.4 (apt).
+- Launch: `ros2 launch ~/rover_ws/src/Rover_2/tests/d435/d435.launch.py [rviz:=true]` (depth 848×480@30, RGB 1280×720@30, aligned depth, point cloud; RViz config `d435.rviz`).
+- Rates: `tests/tools/topic_rates.sh 8 /camera/camera/color/image_raw ...`

@@ -63,3 +63,11 @@ Record each design decision before implementing it. Newest at the bottom.
 - Options: (A) gimbal camera used for both inspection and model texture; (B) fixed, calibrated sensors for mapping and texture, gimbal only for operator inspection.
 - Decision: B (proposed). Mid-360 = geometry + localization; D435i (or a later fixed camera) = texture + close-range depth; gimbal = live inspection. Localization = LiDAR-inertial SLAM fused with wheel odometry and IMU. Pi 4 runs drivers, motor control and recording to SSD; live SLAM runs on the operator laptop over the tether; heavy processing is offline.
 - Consequences: On-board Ethernet switch and USB 3 SSD required. Camera–LiDAR calibration and time sync required. Blueprint needs georeferencing at the entry manhole (GNSS position + initial heading). Pi 4 load must be verified; upgrade path is Pi 5 or Jetson Orin Nano.
+
+## ADR-007: ROS 2 sensor drivers for the hardware-evaluation phase
+- Date: 2026-10-01
+- Status: Accepted (Jan: "set up ROS and integrate the two sensors")
+- Context: Mid-360 and D435 passed vendor-tool tests; ROS 2 Humble installed on the dev laptop.
+- Options: (A) vendor drivers as-is, launched from standalone test launch files; (B) wrap them in the `rover_2` package now.
+- Decision: A. `livox_ros_driver2` built from source in `~/rover_ws/src/` (not vendored in this repo; Livox-SDK2 installed to `/usr/local`). `realsense2_camera` 4.58.4 from apt (`ros-humble-realsense2-camera`). Test launch files and configs live in `tests/mid360/` and `tests/d435/` and are run by path (`ros2 launch <path>`).
+- Consequences: Integration into `rover_2` launch tree, URDF frames and `config/` comes with the rover build (roadmap), via a later ADR. Driver sources must be re-fetched on a new machine (see `tests/*/README.md`).
