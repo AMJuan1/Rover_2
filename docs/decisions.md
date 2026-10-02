@@ -95,3 +95,11 @@ Record each design decision before implementing it. Newest at the bottom.
 - Options: (A) keep mixed motors and match speeds in firmware; (B) four identical 150:1 37D 12 V motors with 64 CPR encoders, four independent driver channels.
 - Decision: B. The control electronics (more capable microcontroller, 4-channel driver, new PCB) are designed first (V2); v1 electronics are not integrated on the new rover. PCB details to be discussed separately.
 - Consequences: Firmware and ROS 2 hardware interface must handle 4 motors / 4 encoders (fork of `ros_arduino_bridge` + `diffdrive_arduino`, 4 joints, `diff_drive_controller` with two wheels per side). Microcontroller choice pending (needs 4 quadrature decoders, see `docs/research/v1-reference-articulated-robotics.md`). Supersedes the front-motor statements in `prototype-geometry.md`.
+
+## ADR-011: V2 motor controller = Raspberry Pi Pico 2 (RP2350)
+- Date: 2026-10-02
+- Status: Accepted (Jan)
+- Context: Four 64 CPR encoders at up to ≈ 10.7 k counts/s each (≈ 43 k/s total) exceed what an Arduino Nano can count reliably in software interrupts.
+- Options: Pico 2 (PIO hardware quadrature), Teensy 4.1 (hardware encoder modules), STM32 Black Pill (timer encoder mode), ESP32 (PCNT), Arduino Mega (software interrupts).
+- Decision: Pico 2 (RP2350): 4 quadrature decoders in PIO, USB serial to the Pi, Arduino-compatible toolchain, low cost.
+- Consequences: Port `ros_arduino_bridge` concepts (ASCII protocol, PID, auto-stop) to 4 motors; 3.3 V logic → level shifting for 5 V encoder outputs; fork `diffdrive_arduino` to 4 joints. See `docs/research/drivetrain.md`.
