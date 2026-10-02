@@ -6,10 +6,11 @@
 | Item | Model / spec | Notes |
 |---|---|---|
 | Battery | Zeee 3S LiPo 6000 mAh, 11.1 V nominal (12.6 V full), 66.6 Wh, 120C, EC5 (pack of 2) | Second pack available as spare / swap |
+| Pan/tilt servos | Feetech FT6335M (pan, 4–8.4 V, 0–360°, stall 3.2–3.9 A) + weaker tilt servo | Used on v1 at 5 V; joystick control only, no angle feedback |
 | Live-feed camera | Arducam USB 2.0, 1080p, 2 MP, automatic IR-cut, on-board IR LEDs (UVC) | Replaces the gimbal for now; mounted on pan/tilt **servos** |
 | Camera light | One white LED on top of the live camera (moves with it), not dimmable | |
 | Area lights | Treedix WS2812B 5 V addressable RGB LEDs (10×10 strips) around the rover | Brightness controllable in software |
-| Motor drivers | Jan's custom PCB | Next topic |
+| Motor drivers | 4× DRV8871 modules (V2.1, ADR-013) | See `control-board-v2.1.md` |
 | Tether | VOIETOLT Cat6 outdoor, 30 m, 24 AWG, **CCA** (copper-clad aluminium), waterproof jacket | Only 30 m; runs go up to 100 m |
 | Operator side | Laptop only (USB-Ethernet adapter), charged from the car outlet | Rover runs on its own battery |
 
@@ -18,8 +19,7 @@
 |---|---|---|---|
 | VBAT 9.9–12.6 V | LiPo via main switch + fuse | Motors (via PCB), Mid-360 (9–27 V input) | Mid-360: 6.5 W nominal, up to 18 W for ~8 s at start-up |
 | 5 V logic (≥ 5 A buck) | VBAT | Raspberry Pi 4 (5 V/3 A), D435 and Arducam via Pi USB, Ethernet switch (if 5 V) | Keep separate from servos and LEDs to avoid Pi brown-outs |
-| 5–6 V servo (buck) | VBAT | Pan/tilt servos | Servo current spikes stay off the Pi rail |
-| 5 V LED (buck, sized to software brightness limit) | VBAT | WS2812B strips, camera white LED | A WS2812B draws up to ~60 mA at full white: 100 LEDs could reach ~6 A. Cap brightness in software |
+| 5 V actuators (buck B, XL4016) | VBAT | Pan/tilt servos, WS2812B strips (~40 LEDs, 50 % cap ≈ 1.2 A), camera white LED | Superseded layout: see `control-board-v2.1.md` (two bucks, ADR-013) |
 
 - WS2812B data line from the Pi (3.3 V) to 5 V LEDs: use a level shifter (e.g. 74AHCT125) — unless Jan's PCB already includes one.
 - Battery monitoring: cell voltage / pack voltage to the Pi (ADC on the PCB?) with a low-voltage cutoff around 3.3–3.5 V per cell.

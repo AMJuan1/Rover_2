@@ -111,3 +111,11 @@ Record each design decision before implementing it. Newest at the bottom.
 - Options: (A) design the final PCB directly; (B) V2.1 prototype from modules (Pico 2, 2× MDD10A, 2 bucks, level shifters, fused distribution, e-stop) on a Raspberry Pi proto HAT; final PCB (V3) after validation.
 - Decision: B. Design in `docs/research/control-board-v2.1.md`; diagram in Lucidchart.
 - Consequences: Firmware for Pico 2 (4-motor ASCII protocol) and a 4-joint ros2_control hardware interface are developed against V2.1. Lessons from bench tests feed the V3 PCB.
+
+## ADR-013: V2.1 revision — DRV8871 drivers, two 5 V bucks, simplified protection
+- Date: 2026-10-02
+- Status: Accepted (Jan)
+- Context: Jan rejected the Cytron MDD10A on cost. Servo is the Feetech FT6335M (4–8.4 V, 0–360°, used at 5 V on v1); camera moves by joystick only. Jan's v1 board already has one integrated buck, so two bucks in total. Review of level shifters and the fuse box asked whether they are necessary.
+- Options: drivers (A) Pololu DRV8874 carrier ×4, (B) generic DRV8871 module ×4; servo rail (A) separate 7 V buck, (B) shared 5 V actuator buck.
+- Decision: drivers B (generic DRV8871 ×4, current limit ≈ 2.9 A via R_ILIM ≈ 22 kΩ). Servo rail B (buck B 5.0 V shared with WS2812B and camera LED; logic on buck A 5.1 V). Encoder level shifters removed (1 kΩ series resistors; RP2350 is 5 V tolerant). 74AHCT125 optional. Fuse box replaced by inline fuses (15 A main, 10 A motors, 3 A Mid-360). Ethernet switch 4–5 ports. USB 3 SSD 256–512 GB for rosbag.
+- Consequences: Pico pins GP10–17 become IN1/IN2 per driver (both PWM). No driver current-sense output (spare ADC GP27/28 kept for a future current sensor). Firmware ramps servo motion and caps LED brightness to keep buck B below ≈ 5 A. Pin map and BOM in `control-board-v2.1.md`.
