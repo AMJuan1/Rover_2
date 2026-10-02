@@ -87,3 +87,11 @@ Record each design decision before implementing it. Newest at the bottom.
 - Options: (A) buy a gimbal camera (SIYI A8 mini candidate); (B) Arducam on pan/tilt servos with a white LED that moves with it.
 - Decision: B for now. Gimbal deferred.
 - Consequences: The Pi 4 handles the live feed (USB 2 capture, MJPEG or hardware H.264 streaming) and the servo control. A 5–6 V servo rail is needed. See `docs/research/electronics.md`.
+
+## ADR-010: Four identical 150:1 encoder gearmotors; V2 control electronics designed before integration
+- Date: 2026-10-01
+- Status: Accepted (Jan)
+- Context: Mixing 10 RPM front motors (no encoders) with 150:1 rear motors (encoders) causes speed mismatch, wheel slip and wrong rear odometry; the v1 board drives both motors of a side in parallel from one L298N channel.
+- Options: (A) keep mixed motors and match speeds in firmware; (B) four identical 150:1 37D 12 V motors with 64 CPR encoders, four independent driver channels.
+- Decision: B. The control electronics (more capable microcontroller, 4-channel driver, new PCB) are designed first (V2); v1 electronics are not integrated on the new rover. PCB details to be discussed separately.
+- Consequences: Firmware and ROS 2 hardware interface must handle 4 motors / 4 encoders (fork of `ros_arduino_bridge` + `diffdrive_arduino`, 4 joints, `diff_drive_controller` with two wheels per side). Microcontroller choice pending (needs 4 quadrature decoders, see `docs/research/v1-reference-articulated-robotics.md`). Supersedes the front-motor statements in `prototype-geometry.md`.

@@ -34,11 +34,11 @@ Design intent (Jan): the LiDAR maps the section already travelled; the depth cam
 | Item | Value |
 |---|---|
 | Configuration | 4-wheel skid steer |
-| Rear motors | 150:1 37D×73L gearmotor, 12 V, 64 CPR encoder → 64 × 150 = **9,600 counts/wheel rev** → **0.0437 mm/count** (circumference 419.5 mm) |
-| Front motors | 10 RPM, 12 V, no encoders (chosen for torque) |
+| All 4 motors (ADR-010) | 150:1 37D×73L gearmotor, 12 V, 64 CPR encoder → 64 × 150 = **9,600 counts/wheel rev** → **0.0437 mm/count** (circumference 419.5 mm) |
+| Front motors (v1 build) | 10 RPM, 12 V, no encoders — **to be replaced by 150:1 encoder motors (ADR-010)** |
 | Speed at 10 RPM | 70 mm/s (4.2 m/min; 100 m ≈ 24 min) |
 
-Speed mismatch: the rear motors are faster (no-load speed to be taken from the datasheet). Deferred by Jan (to be solved with the electronics). Proposed mitigation: closed-loop speed control on the rear wheels, with the rear setpoint matched to the measured loaded speed of the front motors, so the front wheels neither drag nor are dragged. A second pair of 150:1 motors (without encoders) is a fallback; electronics to be discussed later.
+Speed mismatch (resolved by ADR-010, kept for history): the rear motors are faster (no-load speed to be taken from the datasheet). Deferred by Jan (to be solved with the electronics). Proposed mitigation: closed-loop speed control on the rear wheels, with the rear setpoint matched to the measured loaded speed of the front motors, so the front wheels neither drag nor are dragged. A second pair of 150:1 motors (without encoders) is a fallback; electronics to be discussed later.
 
 ## Consequences for localization
 - Wheel odometry: distance on straight runs only; heading from the Mid-360 IMU (skid steer slips in turns). Treat wheel odometry as a low-weight input.
