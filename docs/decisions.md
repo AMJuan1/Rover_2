@@ -103,3 +103,11 @@ Record each design decision before implementing it. Newest at the bottom.
 - Options: Pico 2 (PIO hardware quadrature), Teensy 4.1 (hardware encoder modules), STM32 Black Pill (timer encoder mode), ESP32 (PCNT), Arduino Mega (software interrupts).
 - Decision: Pico 2 (RP2350): 4 quadrature decoders in PIO, USB serial to the Pi, Arduino-compatible toolchain, low cost.
 - Consequences: Port `ros_arduino_bridge` concepts (ASCII protocol, PID, auto-stop) to 4 motors; 3.3 V logic → level shifting for 5 V encoder outputs; fork `diffdrive_arduino` to 4 joints. See `docs/research/drivetrain.md`.
+
+## ADR-012: Control board V2.1 = off-the-shelf modules on a Pi proto HAT (prototype phase)
+- Date: 2026-10-02
+- Status: Accepted (Jan), design under review
+- Context: The v1 custom PCB must be replaced (ADR-010/011, `pcb-review.md`). Jan wants every function validated with individually testable components before a production PCB.
+- Options: (A) design the final PCB directly; (B) V2.1 prototype from modules (Pico 2, 2× MDD10A, 2 bucks, level shifters, fused distribution, e-stop) on a Raspberry Pi proto HAT; final PCB (V3) after validation.
+- Decision: B. Design in `docs/research/control-board-v2.1.md`; diagram in Lucidchart.
+- Consequences: Firmware for Pico 2 (4-motor ASCII protocol) and a 4-joint ros2_control hardware interface are developed against V2.1. Lessons from bench tests feed the V3 PCB.

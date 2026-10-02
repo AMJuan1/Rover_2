@@ -1,6 +1,6 @@
 # Drivetrain V2: motors, encoders, sizing
 - Date: 2026-10-02
-- Status: App analysis from the Pololu 37D datasheet (rev 1.2) supplied by Jan. Rover mass is an estimate until weighed.
+- Status: App analysis from the Pololu 37D datasheet (rev 1.2) supplied by Jan. Rover mass ≈ 1.9 kg (Jan, 2026-10-02).
 
 ## Motor (ADR-010): Pololu 150:1 Metal Gearmotor 37D×73L, 12 V, 64 CPR encoder (helical pinion)
 | Parameter | Value (12 V) | Source |
@@ -22,7 +22,7 @@
 | Odometry resolution | 0.044 mm per count |
 | Continuous traction (4 × 100 kg·mm = 0.98 N·m each) | 14.7 N per wheel → **≈ 59 N total** |
 | Instantaneous traction (4 × 250 kg·mm) | ≈ 147 N total |
-| Rover weight (estimate 5 kg) | ≈ 49 N → continuous traction ≈ 1.2 × weight: ample for joint lips and pipe slopes |
+| Rover weight (Jan: ≈ 1.9 kg with motors, Pi, LiDAR, cameras; wheels light) | ≈ 19–20 N → continuous traction ≈ **3 × weight**: ample for joint lips and pipe slopes |
 | 100 m run time | ≈ 4 min one way at 0.4 m/s (vs ≈ 24 min at 70 mm/s with the 10 RPM motors) |
 
 ## Electrical sizing for the V2 board
