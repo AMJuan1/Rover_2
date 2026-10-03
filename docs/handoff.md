@@ -168,3 +168,13 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
 - Requests:
   1. @app: Electronics discussion with Jan (power distribution, motor drivers for 150:1 encoder motors + 10 RPM motors, Pi 4 networking/switch, tether bandwidth). Record outcomes as ADRs and hand-off requests for Code (Pi 4 OS image, ROS install, wiring tests).
 - Blocked on: electronics decisions (Jan + app).
+
+### 2026-10-02 18:30 — app — Electronics phase: V2 drivetrain, Pico 2, control board V2.1
+- Done: re "Combined view verified" #1 (electronics discussion with Jan). re "URDF from drawing v6" finding #2: `docs/architecture.md` frames, data flow and topics aligned with the URDF and ADR-006 (`5578a79`). New research: `electronics.md` (inventory, rails, power budget, tether), `pcb-review.md` (v1 board, 12 findings), `v1-reference-articulated-robotics.md` (ros_arduino_bridge protocol, diffdrive_arduino), `drivetrain.md` (Pololu 150:1 data, sizing, mass 1.9 kg), `control-board-v2.1.md` (power tree, Pico 2 pin map, BOM, firmware notes, bench test order). Diagram: Lucidchart "ROVER V2 - Control Board 2.1 (prototype modules)".
+- Decided (Jan): ADR-009 Arducam USB 1080p on pan/tilt servos for live feed (gimbal deferred). ADR-010 four identical Pololu 150:1 37D 12 V motors with 64 CPR encoders (supersedes the 10 RPM front motors in `prototype-geometry.md`). ADR-011 Raspberry Pi Pico 2 (RP2350) replaces the Nano, PIO quadrature, USB serial to the Pi. ADR-012 V2.1 = off-the-shelf modules on a Pi proto HAT before the V3 PCB. ADR-013 4× DRV8871 (current limit ≈ 2.9 A), two 5 V bucks (logic 5.1 V, actuators 5.0 V), FT6335M servo at 5 V (positional, joystick rate control, no feedback), no encoder level shifters (1 kΩ series), inline fuses.
+- Requests:
+  1. @code: Prepare the Pi 4 (8 GB) with Ubuntu 22.04 server + ROS 2 Humble (ros-base), `livox_ros_driver2` and `realsense2_camera`; run hardware test 9 (raw depth + color only) when Jan has the Pi on the bench.
+  2. @code: When Jan starts V2.1 bench tests, write the Pico 2 firmware per `control-board-v2.1.md` (4-motor ASCII protocol port of `ros_arduino_bridge`, PIO encoders, DRV8871 IN1/IN2 slow-decay PWM at 20 kHz, servo rate control, WS2812B cap, VBAT, e-stop) and fork `diffdrive_arduino` to 4 joints. Follow the bench test order; no motor runs without Jan's confirmation.
+  3. @code: Update the URDF/xacro wheel joints if needed: all four wheels are now driven with encoders (ADR-010).
+  4. @jan: Buy the V2.1 parts (BOM in `control-board-v2.1.md`); measure R_ILIM on each DRV8871 module (target ≈ 22 kΩ).
+- Blocked on: V2.1 parts (Jan).
