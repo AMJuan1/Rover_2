@@ -74,3 +74,17 @@ Notes:
 
 Combined run (both drivers, 2026-10-01): lidar 10.00 Hz, IMU 200.0 Hz, color 29.99 Hz, depth 29.70 Hz, point cloud 30.00 Hz — no drops. Color at 30 Hz in normal light supports the auto-exposure explanation for the earlier 16 Hz.
 | 9 | Pi 4 load | Not started |
+
+## Control board V2.1 modules (bench tests by Jan, procedures by the app)
+
+### Buck module "XL4016 CC/CV 9 A" (marketplace listing, 2 pcs) — 2026-10-19 — FAIL (wrong item)
+Procedure (no-load version): visual → unpowered resistance → 12 V / 0.3 A first power-up → identify CV knob → set 5.10 V (A) / 5.00 V (B) → CC ≈ 6 A via 10 A meter short → recheck → 9.9 / 12.6 V input → start-up overshoot ≤ 5.25 V → lock and label. Load and thermal checks moved to integration (Pi `stress-ng` + `vcgencmd get_throttled`; servos + WS2812B).
+
+| Check | Result |
+|---|---|
+| Input at terminals | 12.0 V (meter) |
+| Output, 12 V in | 21 V initially; adjustable 11.7–21 V; never below input − diode drop |
+| Output, 6 V in | ≈ 5.4 V (input passed through the diode; below boost start-up) |
+| Knobs | One (listing shows two-knob CC/CV) |
+| Components | Controller **UC3843 (3843B)**, external MOSFET **RU7088R** on heatsink; no XL4016E1 |
+| Verdict | **Boost (step-up) module, not an XL4016 buck.** Not usable. Return to seller; replacement must show XL4016E1, two trimmers, 1.25–36 V output, and pass 12 V in → ~1.2 V minimum out on arrival. Interim logic rail: Jan's v1 integrated buck, after the same procedure. Second module: pending same check. |
