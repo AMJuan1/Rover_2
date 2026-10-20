@@ -93,7 +93,7 @@ Procedure (no-load version): visual → unpowered resistance → 12 V / 0.3 A fi
 - Terminals: VIN+/VIN−, OUT+/OUT−; header TRIG/PWM and GND, each with alternative footprints (2.54 mm pair + larger pitch), all holes of one label connected. Use one TRIG + one GND (2-pin 2.54 mm header).
 - Low-side switch: VIN+ = OUT+; MOSFETs connect OUT− to VIN−. Camera LED negative must not have another ground path.
 - Test with Pico 2 GP21 as trigger (`~/pico_tests/mos_test.py`): OFF, ON, OFF, floating (pull-down keeps it off), PWM 1 kHz 25/50/75/100 % — all as expected (Jan). Load 1: 1 kΩ at 12 V; load 2: camera LED at 12 V.
-- Camera LED: **12 V type** (lights at ≈ 8 V, brightness rises with voltage; built-in series resistor). 5 min on at 12 V: module barely warm. LED current at 12.0 / 12.6 V not recorded yet.
+- Camera LED: **12 V type** (lights at ≈ 8 V, brightness rises with voltage; built-in series resistor). 5 min on at 12 V: module barely warm. LED current ≈ 0.1 A or less at 12 V (meter, Jan) → inline fuse 0.5 A.
 
 ### Raspberry Pi Pico 2 (RP2350) — 2026-10-20 — PASS
 Procedure: BOOTSEL enumeration → MicroPython v1.29.0 (RPI_PICO2-20260824) via UF2 → `mpremote` self-test (`~/pico_tests/selftest.py` on the dev laptop) → ADC jumper test. Laptop: `python3-pip` and `mpremote` 1.29.0 installed, user added to `dialout`.
