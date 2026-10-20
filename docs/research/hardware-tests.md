@@ -116,3 +116,15 @@ Notes for firmware (@code): calibrate the VBAT channel (GP26) against a multimet
 - Pinout: screw terminals OUT2, OUT1 (motor), VM, GND (power); header GND, VM, IN1, IN2. Header VM = motor supply (never to the Pico). 47 µF 50 V bulk capacitor on board.
 - R_ILIM: SMD, code **303 = 30 kΩ → I_trip ≈ 2.1 A**; kept (see `control-board-v2.1.md`).
 - Test wiring: IN1 → GP16 (pin 21), IN2 → GP17 (pin 22), GND → pin 23. Scripts `~/pico_tests/drv_logic.py` (no motor) and `drv_motor.py` (motor clamped, only after Jan confirms).
+- Results (module 1, one Pololu 150:1 motor, clamped, 12 V bench supply, 2026-10-20) — **PASS**:
+
+| Check | Result |
+|---|---|
+| Fast-decay PWM 20 kHz (one input PWM, other low), 20 / 50 % | No movement (current collapses each off-period at 20 kHz) |
+| Slow-decay PWM 20 kHz (one input high, other PWM inverted) | Moves forward and reverse; speed follows duty |
+| Start threshold (slow decay, no load) | 10 % no motion; 15 % barely trembles; steady above ≈ 20 % |
+| Reverse 30 / 50 / 100 % | Correct direction |
+| Supply current, 100 % no load | 0.150 A (datasheet 0.2 A) |
+| Chip temperature | Cold |
+
+- Firmware consequence (@code): use **slow-decay PWM only** (forward IN1 = 1, IN2 = PWM at (1 − d); reverse mirrored); minimum-duty / dead-zone compensation ≈ 20 % in the PID output; brake = both high, coast = both low.
