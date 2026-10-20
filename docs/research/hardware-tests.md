@@ -111,3 +111,8 @@ Procedure: BOOTSEL enumeration → MicroPython v1.29.0 (RPI_PICO2-20260824) via 
 | VSYS via ADC3 | 2.75 V (first run), 4.42 V (second run); expected ≈ 4.7 V. Likely ADC settling on the 200 k/100 k divider; confirm with a meter on pin 39 |
 
 Notes for firmware (@code): calibrate the VBAT channel (GP26) against a multimeter at two points (bench test 7) instead of relying on nominal 3.3 V full scale; discard the first ADC sample after switching channels and average ≥ 8 samples.
+
+### DRV8871 module (generic, 4 + 1) — 2026-10-20 — IN PROGRESS
+- Pinout: screw terminals OUT2, OUT1 (motor), VM, GND (power); header GND, VM, IN1, IN2. Header VM = motor supply (never to the Pico). 47 µF 50 V bulk capacitor on board.
+- R_ILIM: SMD, code **303 = 30 kΩ → I_trip ≈ 2.1 A**; kept (see `control-board-v2.1.md`).
+- Test wiring: IN1 → GP16 (pin 21), IN2 → GP17 (pin 22), GND → pin 23. Scripts `~/pico_tests/drv_logic.py` (no motor) and `drv_motor.py` (motor clamped, only after Jan confirms).

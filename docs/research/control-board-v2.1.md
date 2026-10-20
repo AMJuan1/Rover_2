@@ -68,7 +68,7 @@ Encoder pairs are on consecutive pins (required by the PIO quadrature program). 
 | Block | Part | Qty | Notes |
 |---|---|---|---|
 | Controller | Raspberry Pi Pico 2 (RP2350) | 1 | ADR-011 |
-| Motor drivers | DRV8871 module, generic (6.5–45 V, 3.6 A peak, IN1/IN2, 3.3 V logic OK) | 4 (+1 spare) | Set R_ILIM ≈ 22 kΩ → I_trip = 64/22 ≈ 2.9 A (check the resistor fitted on the module) |
+| Motor drivers | DRV8871 module, generic (6.5–45 V, 3.6 A peak, IN1/IN2, 3.3 V logic OK) | 4 (+1 spare) | Fitted R_ILIM = 30 kΩ (SMD, code 303) → I_trip = 64/30 ≈ 2.1 A; kept (≈ 180 kg·mm per motor, 4 motors ≈ 5.6× rover weight in traction). 22 kΩ (2.9 A) only if more torque is needed |
 | Motors | Pololu 150:1 37D×73L 12 V, 64 CPR encoder | 4 | ADR-010 |
 | Logic buck | Jan's integrated buck (as v1), set 5.1 V | 1 | Heatsink |
 | Actuator buck | XL4016 module, set 5.0 V | 1 | |
