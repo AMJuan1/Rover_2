@@ -24,7 +24,8 @@
 | Battery → main switch (20 A) → main fuse 15 A (inline blade) | 15 A | VBAT 9.9–12.6 V | 3S 6000 mAh; LiPo cell checker/buzzer on the balance lead |
 | Motors | 10 A inline | E-stop (latching mushroom) → 4× DRV8871 → 4 motors | Driver current limit ≈ 2.9 A per motor (protects gearboxes, below 3.6 A driver peak) |
 | Logic | (main) | Buck A, **5.1 V** (Jan's integrated buck, as v1) | Pi 4 (HAT pins 2/4 + 3 A polyfuse), powered USB 3 hub, encoders (4 × 10 mA), Ethernet switch if 5 V. Peak ≈ 4–4.5 A |
-| Actuators | (main) | Buck B, XL4016 set to **5.0 V** | 2 servos (FT6335M stall 3.2–3.9 A), ~40 WS2812B (firmware cap 50 % ≈ 1.2 A), camera LED (assumed 5 V). 1000 µF low-ESR at the servo connectors |
+| Actuators | (main) | Buck B, XL4016 set to **5.0 V** | 2 servos (FT6335M stall 3.2–3.9 A), ~40 WS2812B (firmware cap 50 % ≈ 1.2 A). 1000 µF low-ESR at the servo connectors |
+| Camera LED | small inline fuse (size from measured current) | **VBAT direct** → camera LED (12 V type) → XY-MOS (D4184) low-side switch | Brightness varies with battery (≈ 100 % at 12.6 V, ≈ 40 % at 9.9 V); constant-current driver is an open item for V3 |
 | LiDAR | 3 A inline | Mid-360 direct (9–27 V) via its splitter cable | 6.5 W nominal, 18 W for ~8 s at start-up |
 | — | — | VBAT divider 10 k / 3.3 k + 100 nF → Pico ADC0 | 12.6 V → 3.13 V (max ADC 3.3 V) |
 
@@ -75,7 +76,7 @@ Encoder pairs are on consecutive pins (required by the PIO quadrature program). 
 | LED data | 330 Ω resistor; 74AHCT125 (DIP-14) optional | 1 | Buffer only if the strips flicker |
 | Servos | Feetech FT6335M (4–8.4 V, 0–360°, stall 3.2–3.9 A) + tilt servo (Jan's, weaker) | 2 | Positional; 5 V from buck B |
 | Servo rail capacitor | 1000 µF 10 V low-ESR | 1 | At the servo connectors |
-| LED switch | D4184 MOSFET module | 1 | Logic-level gate |
+| LED switch | XY-MOS dual D4184 module | 1 (+1 spare) | Low-side switch; TRIG from GP21; bench-tested 2026-10-20 |
 | Protection | Rocker switch 20 A, latching e-stop | 1 set | |
 | Fuses | Inline blade holders: 15 A main, 10 A motors, 3 A Mid-360 | 3 | Replaces the 6-way fuse box |
 | Battery monitor | 10 k + 3.3 k + 100 nF; LiPo cell checker with buzzer | 1 | |
