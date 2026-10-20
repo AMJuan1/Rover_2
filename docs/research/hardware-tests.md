@@ -88,3 +88,25 @@ Procedure (no-load version): visual → unpowered resistance → 12 V / 0.3 A fi
 | Knobs | One (listing shows two-knob CC/CV) |
 | Components | Controller **UC3843 (3843B)**, external MOSFET **RU7088R** on heatsink; no XL4016E1 |
 | Verdict | **Boost (step-up) module, not an XL4016 buck.** Not usable. Return to seller; replacement must show XL4016E1, two trimmers, 1.25–36 V output, and pass 12 V in → ~1.2 V minimum out on arrival. Interim logic rail: Jan's v1 integrated buck, after the same procedure. Second module: pending same check. |
+
+### Dual-MOSFET module XY-MOS (D4184 ×2), 2 pcs — 2026-10-19 — PAUSED
+- Terminals: VIN+/VIN−, OUT+/OUT−; header TRIG/PWM and GND, each with alternative footprints (2.54 mm pair + larger pitch), all holes of one label connected. Use one TRIG + one GND (2-pin 2.54 mm header).
+- Low-side switch: VIN+ = OUT+; MOSFETs connect OUT− to VIN−. Camera LED negative must not have another ground path.
+- Steps 1–7 of the procedure pending (paused by Jan).
+
+### Raspberry Pi Pico 2 (RP2350) — 2026-10-20 — PASS
+Procedure: BOOTSEL enumeration → MicroPython v1.29.0 (RPI_PICO2-20260824) via UF2 → `mpremote` self-test (`~/pico_tests/selftest.py` on the dev laptop) → ADC jumper test. Laptop: `python3-pip` and `mpremote` 1.29.0 installed, user added to `dialout`.
+
+| Check | Result |
+|---|---|
+| Bootloader | `2e8a:000f RP2350 Boot`, drive `RP2350`, `Board-ID: RP2350` |
+| Firmware | `Raspberry Pi Pico2 with RP2350`, MicroPython 1.29.0 |
+| CPU | 150 MHz |
+| On-board LED | OK |
+| Chip temperature | 25.6–27.0 °C |
+| GPIO GP0–22, GP26–28 | All pass pull-up, drive-low and drive-high readback |
+| PWM GP10 20 kHz 50 % | OK (Jan) |
+| ADC0 (GP26) | AGND → 0; 3V3 → 62,975–63,327 (≈ 3.17 V, ≈ 4 % below full scale); floating 13,000–50,000 (normal) |
+| VSYS via ADC3 | 2.75 V (first run), 4.42 V (second run); expected ≈ 4.7 V. Likely ADC settling on the 200 k/100 k divider; confirm with a meter on pin 39 |
+
+Notes for firmware (@code): calibrate the VBAT channel (GP26) against a multimeter at two points (bench test 7) instead of relying on nominal 3.3 V full scale; discard the first ADC sample after switching channels and average ≥ 8 samples.
