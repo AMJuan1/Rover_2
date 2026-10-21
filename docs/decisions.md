@@ -119,3 +119,10 @@ Record each design decision before implementing it. Newest at the bottom.
 - Options: drivers (A) Pololu DRV8874 carrier ×4, (B) generic DRV8871 module ×4; servo rail (A) separate 7 V buck, (B) shared 5 V actuator buck.
 - Decision: drivers B (generic DRV8871 ×4, current limit ≈ 2.9 A via R_ILIM ≈ 22 kΩ). Servo rail B (buck B 5.0 V shared with WS2812B and camera LED; logic on buck A 5.1 V). Encoder level shifters removed (1 kΩ series resistors; RP2350 is 5 V tolerant). 74AHCT125 optional. Fuse box replaced by inline fuses (15 A main, 10 A motors, 3 A Mid-360). Ethernet switch 4–5 ports. USB 3 SSD 256–512 GB for rosbag.
 - Consequences: Pico pins GP10–17 become IN1/IN2 per driver (both PWM). No driver current-sense output (spare ADC GP27/28 kept for a future current sensor). Firmware ramps servo motion and caps LED brightness to keep buck B below ≈ 5 A. Pin map and BOM in `control-board-v2.1.md`.
+
+## ADR-014: V2.1 bench findings — R_ILIM 30 kΩ, slow-decay PWM, camera LED on VBAT
+- Date: 2026-10-20
+- Status: Accepted (Jan)
+- Context: Bench tests of the delivered modules (`control-board-bench-procedures.md`, `hardware-tests.md`). Amends ADR-013.
+- Decision: (1) Keep the DRV8871 modules' fitted R_ILIM = 30 kΩ (I_trip ≈ 2.1 A, ≈ 180 kg·mm per motor, traction ≈ 5.6× rover weight) instead of 22 kΩ. (2) Motor PWM 20 kHz in slow decay only; minimum duty ≈ 20 %. (3) The camera LED is a 12 V type (≈ 0.1 A): powered from VBAT through the XY-MOS low-side switch with a 0.5 A inline fuse; buck B feeds servos and WS2812B only. (4) The delivered "XL4016" modules are UC3843 boost converters: rejected; buck replacement pending.
+- Consequences: Firmware uses slow-decay mapping and dead-zone compensation. LED brightness varies with battery voltage (constant-current driver is an open item for V3). Lucidchart diagram to be updated for the LED change.

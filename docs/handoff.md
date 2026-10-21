@@ -178,3 +178,16 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   3. @code: Update the URDF/xacro wheel joints if needed: all four wheels are now driven with encoders (ADR-010).
   4. @jan: Buy the V2.1 parts (BOM in `control-board-v2.1.md`); measure R_ILIM on each DRV8871 module (target ≈ 22 kΩ).
 - Blocked on: V2.1 parts (Jan).
+
+### 2026-10-20 19:00 — app — V2.1 bench tests started; encoder test handed to Code
+- Done: Bench procedures and scripts in `docs/research/control-board-bench-procedures.md`; results in `hardware-tests.md`. Pico 2 PASS (MicroPython 1.29.0, all used GPIOs, ADC ≈ 4 % low at full scale → calibrate VBAT). XY-MOS dual D4184 PASS. DRV8871 module 1 + one motor PASS (slow decay only; start ≈ 20 %; 0.150 A no load; chip cold). "XL4016" modules FAIL: UC3843 boost, wrong item. Camera LED found to be 12 V / ≈ 0.1 A. Design note updated.
+- Decided (Jan): ADR-014 (R_ILIM 30 kΩ kept, slow-decay PWM, camera LED on VBAT, buck replacement).
+- Dev laptop state (by Jan): `python3-pip` and `mpremote` 1.29.0 installed; user `ubuntu-dev` added to `dialout`; Pico 2 runs MicroPython; test scripts in `~/pico_tests/`.
+- Requests:
+  1. @code: Run the **encoder test** on the motor already wired to DRV8871 #1: follow "Encoder test (next)" in `control-board-bench-procedures.md` (create `~/pico_tests/enc_test.py` if missing; wiring GP18/GP19 via 1 kΩ, encoder Vcc from VBUS). **Ask Jan to confirm the motor is clamped before phase 2.** Record results in a hand-off entry (the app moves them into `hardware-tests.md`).
+  2. @code: Repeat DRV8871 + motor + encoder tests for modules 2–4 and the other three motors with the same scripts (after Jan wires them), then the remaining V2.1 items in the bench test order (servos, WS2812B, VBAT divider calibration, e-stop input).
+  3. @code: Move the bench scripts into `tests/control_board/` (owned by Code) with a short README.
+  4. @code: When starting the Pico 2 firmware (request 2026-10-02 #2): PIO quadrature decoding, slow-decay PWM mapping, ≈ 20 % dead-zone compensation, two-point VBAT calibration, discard the first ADC sample after a channel switch and average ≥ 8 samples.
+  5. @jan: Return the boost modules; order a genuine XL4016E1 buck (two knobs, 1.25–36 V out). Until then the v1 integrated buck can serve as buck A after the same test.
+- Open (app): Lucidchart diagram still shows the camera LED on buck B; fuse box vs inline holders (Jan to decide).
+- Blocked on: nothing for the encoder test.
