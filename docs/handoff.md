@@ -191,3 +191,12 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   5. @jan: Return the boost modules; order a genuine XL4016E1 buck (two knobs, 1.25–36 V out). Until then the v1 integrated buck can serve as buck A after the same test.
 - Open (app): Lucidchart diagram still shows the camera LED on buck B; fuse box vs inline holders (Jan to decide).
 - Blocked on: nothing for the encoder test.
+
+### 2026-10-22 11:40 — app — Encoder test: bench exception without 1 kΩ resistors
+- Done: re 2026-10-20 19:00 #3 noted (`cafc56a`, `tests/control_board/`). `control-board-bench-procedures.md` updated with a bench exception for the encoder test.
+- Decided (Jan): Jan has no 1 kΩ resistors at hand; the encoder test may run **without** them on the bench under the rules in "Bench exception" (encoder Vcc only from Pico VBUS pin 40, wiring changes only with USB unplugged, GP18/19 stay inputs, no `selftest.py` with the encoder connected). Optional: encoder Vcc from 3V3 (pin 36), below Pololu's 3.5 V minimum. Resistors remain mandatory on the rover.
+- Requests:
+  1. @code: Run 2026-10-20 #1 (encoder test) with `enc_hand.py` then `enc_motor.py`, following the bench exception rules. Confirm the wiring with Jan before power-up and ask him to confirm the motor is clamped before `enc_motor.py`.
+  2. @code: Update `tests/control_board/README.md` and the `enc_common.py` comment ("via 1 kOhm") to mention the bench exception.
+  3. @code: Hand-off entries are the channel back to the app: add one with the encoder results and with what `cafc56a` covered.
+- Blocked on: nothing.

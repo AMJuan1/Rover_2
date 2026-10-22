@@ -26,6 +26,22 @@
 | Motor supply | Bench supply 12 V, 1.5 A limit → DRV8871 VM / GND terminals. Header VM is never connected to the Pico |
 
 ## Encoder test (next)
+Scripts now in `tests/control_board/` (Code, `cafc56a`): `enc_common.py` + `enc_hand.py` (phase 1, no motor) and `enc_motor.py` (phase 2, motor turns). See its README.
+
+### Bench exception: encoder without the 1 kΩ resistors (approved by Jan, 2026-10-22)
+Allowed **on the bench only**, because Jan has no 1 kΩ resistors at hand. RP2350 GPIOs tolerate 5 V only while the Pico's 3.3 V supply is on, so:
+
+| # | Rule | Reason |
+|---|---|---|
+| 1 | Encoder blue (Vcc) → Pico **VBUS (pin 40)**, green → Pico **GND (pin 38)**; never from the bench supply or another 5 V source | Encoder and Pico power up and down together |
+| 2 | Connect/disconnect encoder wires only with the Pico's USB unplugged | No moment with 5 V present and the Pico's 3.3 V off |
+| 3 | GP18/GP19 stay **inputs**; do **not** run `selftest.py` with the encoder connected (it drives every pin high and low) | An output driving against the encoder has no current limit |
+| 4 | Run only the encoder scripts (they set GP18/19 as inputs) | Same |
+| 5 | Short wires; do not touch signal pins while running | Static and noise |
+
+Alternative: encoder Vcc → Pico **3V3 (pin 36)** — outputs 3.3 V, no risk to the Pico, but below Pololu's 3.5 V minimum (may miss counts). Acceptable if the counts look right.
+**On the rover the 1 kΩ resistors are mandatory** (encoders on buck A, Pico powered by the Pi: rule 1 no longer holds).
+
 Pololu 37D encoder wire colours: red/black = motor, blue = encoder Vcc (3.5–20 V), green = encoder GND, yellow = A, white = B. 64 counts per motor revolution (both edges, both channels) × 150 = **9,600 counts per output revolution**.
 
 ```python
