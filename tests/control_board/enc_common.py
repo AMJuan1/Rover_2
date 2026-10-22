@@ -3,7 +3,7 @@
 from machine import Pin, PWM
 import time
 
-ENC_A, ENC_B = 18, 19       # yellow / white via 1 kOhm
+ENC_A, ENC_B = 18, 19       # yellow / white via 1 kOhm (bench exception: direct, see README)
 IN1, IN2 = 16, 17           # DRV8871 #1 inputs
 PWM_HZ = 20000
 CPR_OUT = 9600              # 64 counts/motor rev x 150
