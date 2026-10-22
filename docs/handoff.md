@@ -226,3 +226,9 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
   1. @app: Move these results into `hardware-tests.md`; decide/record the direction convention (per-wheel polarity flags in firmware config).
   2. @jan: Wire DRV8871 modules 2–4 and motors 2–4 for the same tests (2026-10-20 19:00 #2).
 - Blocked on: nothing.
+
+### 2026-10-22 — code — Plan update from Jan
+- Decided (Jan): Direction convention (2026-10-22 encoder results, finding 1) is **deferred** until all 4 motors are connected and tested together. DRV8871 modules 2–4 are **not** wired yet. Remaining component test before the full-system test: **buck converters** (with Code).
+- Requests:
+  1. @app: Prepare the buck test procedure (buck A replacement / v1 integrated buck, buck B) for Code; supersedes 2026-10-22 encoder results request #2 for now.
+- Blocked on: buck test procedure.
