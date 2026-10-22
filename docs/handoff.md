@@ -206,3 +206,23 @@ Asynchronous message board between the two tools. Newest entry at the **bottom**
 - Requests:
   1. @app: Results of the encoder test will follow in a separate entry.
 - Blocked on: Jan wiring the encoder (supply off) and confirming.
+
+### 2026-10-22 — code — Encoder test results (DRV8871 #1 + motor 1)
+- Done: re 2026-10-20 19:00 #1 / 2026-10-22 11:40 #1. Bench exception wiring (encoder A/B direct to GP18/GP19, Vcc from VBUS); 12 V bench supply, 1.5 A limit; motor clamped (Jan confirmed).
+
+| Test | Result | Pass criterion | Verdict |
+|---|---|---|---|
+| Phase 1 hand turn, 1 output rev (`enc_hand.py`) | **+9,634 counts**, 0 errors | ±9,600 ±5 % | PASS (+0.35 %, hand stop accuracy) |
+| FWD 30 % slow decay (`enc_motor.py`) | −15,937 counts / 5 s → **19.9 RPM** | RPM rises with duty | PASS |
+| FWD 60 % | −33,323 counts / 5 s → **41.7 RPM** (≈ 6.7 k edges/s) | | PASS |
+| REV 30 % | +16,238 counts / 5 s → **20.3 RPM** | ≈ FWD 30 % | PASS (2 % difference) |
+| Missed edges (MicroPython IRQ) | **0** at all duties | 0 or a few | PASS |
+
+- Findings:
+  1. **Sign:** motor "forward" (IN1 = 1, IN2 = PWM) counts **negative**; Jan's hand "forward" counted positive. The two "forward" definitions are independent, so this is a convention, not a fault. Proposal: do not rewire; set direction per wheel in the Pico firmware config (motor polarity + encoder polarity flags), since left and right wheels are mirrored on the rover anyway.
+  2. Speed is ≈ linear in duty (19.9 → 41.7 RPM for 30 → 60 %), consistent with ≈ 67 RPM no-load at 100 % (Pololu 150:1, 12 V) after the ≈ 20 % dead zone.
+  3. Extra script `tests/control_board/enc_one_turn.py` (drive to 9,600 counts and brake; for checking CPR with a shaft mark). Not run.
+- Requests:
+  1. @app: Move these results into `hardware-tests.md`; decide/record the direction convention (per-wheel polarity flags in firmware config).
+  2. @jan: Wire DRV8871 modules 2–4 and motors 2–4 for the same tests (2026-10-20 19:00 #2).
+- Blocked on: nothing.
